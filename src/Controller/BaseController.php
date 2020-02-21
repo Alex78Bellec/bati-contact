@@ -7,13 +7,35 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BaseController extends AbstractController
 {
+    
     /**
-     * @Route("/base", name="base")
+     * @Route("/", name="index")
      */
     public function index()
     {
-        return $this->render('base/index.html.twig', [
+        return $this->render('home/index.html.twig', [
             'controller_name' => 'BaseController',
         ]);
     }
+
+    /**
+     * @Route("/marques", name="marques")
+     */
+    public function marques()
+    {
+        return $this->render('general/listemarques.html.twig', [
+            'controller_name' => 'BaseController',
+        ]);
+    }
+
+    /**
+     * @Route("/fabricants", name="fabricants")
+     */
+    public function fabricants()
+    {
+        return $this->render('general/listefabricants.html.twig', [
+            'controller_name' => 'BaseController',
+        ]);
+    }
+    
 }
