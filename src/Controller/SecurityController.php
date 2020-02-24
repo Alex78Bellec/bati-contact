@@ -19,29 +19,29 @@ class SecurityController extends AbstractController
 
 
 /**
-* @Route("/inscription", name="security_registrationFab") 
+* @Route("/inscriptionFab", name="security_registrationFab") 
 */
 
     public function registrationFab() 
     {
-        return $this->render('security/registrationFab', [
+        return $this->render('security/registrationFab.html.twig', [
             'controller_name' => 'SecurityController',
         ]);
     }
 
 
 /**
-* @Route("/inscription", name="security_registrationFab") 
+* @Route("/inscriptionDist", name="security_registrationDist") 
 */
 
     public function registrationDist() 
     {
-        return $this->render('security/registrationDist', [
+        return $this->render('security/registrationDist.html.twig', [
             'controller_name' => 'SecurityController',
         ]);
     }
 
- /**
+/**
 * @Route("/connexion", name="security_login") 
 */
     public function login()
