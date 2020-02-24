@@ -19,11 +19,11 @@ class BaseController extends AbstractController
     }
 
     /**
-     * @Route("/marques", name="marques")
+     * @Route("/distributeur", name="distrib")
      */
     public function marques()
     {
-        return $this->render('general/listemarques.html.twig', [
+        return $this->render('general/listedistrib.html.twig', [
             'controller_name' => 'BaseController',
         ]);
     }
@@ -37,5 +37,15 @@ class BaseController extends AbstractController
             'controller_name' => 'BaseController',
         ]);
     }
+
+    /**
+     * @Route("/produit", name="prod")
+     */
+    public function produit()
+    {
+        return $this->render('general/produit.html.twig', [
+            'controller_name' => 'BaseController',
+        ]);
+    }    
     
 }
