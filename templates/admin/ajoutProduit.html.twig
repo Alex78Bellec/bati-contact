@@ -1,0 +1,23 @@
+{% extends 'admin/baseadmin.html.twig' %}
+
+{% form_theme ProduitForm 'bootstrap_4_layout.html.twig' %}
+
+{% block content %}
+
+<div class="col-md-4 mx-auto">
+    {{form_start(ProduitForm)}}
+
+        {{ form_row(ProduitForm.category) }}
+        {{ form_row(ProduitForm.type) }}
+        {{ form_row(ProduitForm.fabricant) }}
+        {{ form_row(ProduitForm.distributeur) }}
+        {{ form_row(ProduitForm.matiere) }}
+        {{ form_row(ProduitForm.fabric) }}
+        {{ form_row(ProduitForm.distrib) }}
+
+        <button type="submit" class="btn btn-primary">Ajouter Produit</button>
+
+    {{form_end(ProduitForm)}}
+</div>
+
+{% endblock %}

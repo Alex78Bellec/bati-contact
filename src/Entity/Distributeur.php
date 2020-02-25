@@ -54,6 +54,11 @@ class Distributeur
      */
     private $produits;
 
+    public function __toString()
+    {
+        return $this->marque;
+    }
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();

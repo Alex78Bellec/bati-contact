@@ -50,7 +50,7 @@ class Fabricant
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Produit", mappedBy="fabric", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Produit", mappedBy="fabric",cascade={"persist"}, orphanRemoval=true)
      */
     private $produits;
 
@@ -134,6 +134,11 @@ class Fabricant
         $this->user = $user;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->marque;
     }
 
     /**

@@ -6,6 +6,8 @@ use App\Entity\User;
 use App\Entity\Produit;
 use App\Entity\Fabricant;
 use App\Entity\Distributeur;
+use App\Form\AddRegistrationProduitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -31,6 +33,53 @@ class SuperAdminController extends AbstractController
             'users' => $users
         ]);
     }
+    
 
+    /**
+     * @Route("/superadmin/ajout_produit", name="add_produit")
+     */
+    public function addProduit(Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(Produit::class);
+        $produits = $repository->findAll();
+
+        $produits = new Produit;
+
+        $form = $this->createForm(AddRegistrationProduitType::class, $produits);
+        $form->handleRequest($request);
+
+        $manager = $this->getDoctrine()->getManager();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $manager->persist($produits);
+
+            $manager->flush();
+
+            $this->addFlash('success', 'Le produit est bien ajouté au site !');
+            return $this->redirectToRoute('add_produit');
+        }
+
+        return $this->render('admin/ajoutProduit.html.twig', [
+            'produits' => $produits,
+            'ProduitForm' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/superadmin/modifier_produit", name="edit_produit")
+     */
+    public function editProduit()
+    {
+        
+    }
+
+    /**
+     * @Route("/superadmin/supprimer_produit", name="delete_produit")
+     */
+    public function deleteProduit()
+    {
+        
+    }
 
 }
