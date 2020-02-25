@@ -44,13 +44,13 @@ class Produit
     private $matiere;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\fabricant", inversedBy="produits")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Fabricant", inversedBy="produits")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fabric;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\distributeur", inversedBy="produits")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Distributeur", inversedBy="produits")
      */
     private $distrib;
 
@@ -161,4 +161,5 @@ class Produit
 
         return $this;
     }
+
 }
