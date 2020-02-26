@@ -10,7 +10,7 @@
                     <h5>Produits</h5>
                     <table class="table table-dark">
                         <tr>
-                            <th>#</th>
+                            
                             <th>Catégorie</th>
                             <th>Type</th>
                             <th>Fabriquant</th>
@@ -18,21 +18,45 @@
                             <th>Matière</th>
                         </tr>
                         {% set i = 1 %}
-                        {% for produit in produits %}
-                            <tr>
-                                <td>{{ i }}</td>
-                                <td>{{ produit.category }}</td>
-                                <td>{{ produit.type }}</td>
-                                <td>{{ produit.fabricant }}</td>
-                                <td>{{ produit.distributeur }}</td>
-                                <td>{{ produit.matiere }}</td>
-                                <td>
+                        {# {% dump valeur %} #}
+                        {% dump produits %}
+
+                    
+                    {% for category in produits %}
+                    <tr>
+                        <td>{{ category.category }}</td>
+                    </tr>
+                    {% endfor %}
+                    
+
+                    
+                    {% for type in produits %}
+                    <tr>
+                    <th></th>
+                        <td>{{ type.type }}</td>
+                    </tr>
+                    {% endfor %}
+                    
+
+                    {% for matiere in produits %}
+                    <tr>
+                        <td>{{ matiere.matiere }}</td>
+                    </tr>
+                    {% endfor %}
+
+{#                     {% for distrib in produits %}
+                        <td>{{ distrib.distrib }}</td>
+                    {% endfor %}
+
+                    {% for fabric in produits %}
+                        <td>{{ fabric.fabric }}</td>
+                    {% endfor %}  #}                   
+
 {#                                     <a href="{{ path('article_edit', {'id': produit.id}) }}"><i class="material-icons blue-text">edit</i></a>
                                     <a href="{{ path('article_remove', {'id': produit.id}) }}"><i class="material-icons red-text">delete</i></a> #}
                                 </td>
                             </tr>
                             {% set i = i+1 %}
-                        {% endfor %}
                     </table>
                 </div>
             </div>

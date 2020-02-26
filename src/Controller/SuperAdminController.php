@@ -18,9 +18,18 @@ class SuperAdminController extends AbstractController
      */
     public function superAdmin()
     {
-        $produit = $this->getDoctrine()->getRepository(Produit::class)->findBy(
-            [],
-        );
+        $produit = $this->getDoctrine()->getRepository(Produit::class)->findby([]);
+        
+        /* $prod = $produit; */
+/*         $valeur = '';
+        foreach($produit as $key => $value)
+        {
+            foreach($value as $valeur)
+            {
+                return $valeur;
+            }
+
+        } */
 
         $fabricants = $this->getDoctrine()->getRepository(Fabricant::class)->findAll();
         $distributeurs = $this->getDoctrine()->getRepository(Distributeur::class)->findAll();
@@ -30,7 +39,9 @@ class SuperAdminController extends AbstractController
             'produits' => $produit,
             'fabricants' => $fabricants,
             'distributeurs' => $distributeurs,
-            'users' => $users
+            'users' => $users,
+           /*  'valeur'=> $valeur, */
+
         ]);
     }
     
@@ -44,6 +55,7 @@ class SuperAdminController extends AbstractController
         $produits = $repository->findAll();
 
         $produits = new Produit;
+        $categorys = $produits->getCategory();
 
         $form = $this->createForm(AddRegistrationProduitType::class, $produits);
         $form->handleRequest($request);
@@ -62,7 +74,8 @@ class SuperAdminController extends AbstractController
 
         return $this->render('admin/ajoutProduit.html.twig', [
             'produits' => $produits,
-            'ProduitForm' => $form->createView()
+            'ProduitForm' => $form->createView(),
+            'categorys' => $categorys
         ]);
     }
 
