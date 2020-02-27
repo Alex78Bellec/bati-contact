@@ -9,53 +9,48 @@
                     <a href="{{ path('add_produit') }}" class="btn btn blue darken-4" style="float: right">Ajouter</a>
                     <h5>Produits</h5>
                     <table class="table table-dark">
+
                         <tr>
-                            
                             <th>Catégorie</th>
-                            <th>Type</th>
-                            <th>Fabriquant</th>
-                            <th>Distributeur</th>
+                            <th>Produits</th>
                             <th>Matière</th>
+                            <th>Distributeur</th>
+                            <th>Fabriquant</th>
                         </tr>
                         {% set i = 1 %}
                         {# {% dump valeur %} #}
                         {% dump produits %}
 
+
+                {% for produit in produits %}
+                <tr>
+                    {# {% for category in produits %} #}
+                        <td>{{ produit.category }}</td>
+                    {# {% endfor %} #}
+
+                    {# {% for type in produits %} #}
+                        <td>{{ produit.type }}</td>
+                    {# {% endfor %} #}
                     
-                    {% for category in produits %}
-                    <tr>
-                        <td>{{ category.category }}</td>
+                    {# {% for matiere in produits %} #}
+                        <td>{{ produit.matiere }}</td>
+                    {# {% endfor %} #}
+
+                    {% for distrib in distributeurs %}
+                    {% for dis in distrib.produits %}
+                        <td>{{ distrib.marque}}</td>
+                    {% endfor %}
+                    {% endfor %}   
+
+                    {# {% for fabric in produits %} #}
+                        <td>{{ produit.fabric }}</td>
+                    {# {% endfor %} #}
                     </tr>
-                    {% endfor %}
-                    
-
-                    
-                    {% for type in produits %}
-                    <tr>
-                    <th></th>
-                        <td>{{ type.type }}</td>
-                    </tr>
-                    {% endfor %}
-                    
-
-                    {% for matiere in produits %}
-                    <tr>
-                        <td>{{ matiere.matiere }}</td>
-                    </tr>
-                    {% endfor %}
-
-{#                     {% for distrib in produits %}
-                        <td>{{ distrib.distrib }}</td>
-                    {% endfor %}
-
-                    {% for fabric in produits %}
-                        <td>{{ fabric.fabric }}</td>
-                    {% endfor %}  #}                   
-
+                {% endfor %}
+            
 {#                                     <a href="{{ path('article_edit', {'id': produit.id}) }}"><i class="material-icons blue-text">edit</i></a>
                                     <a href="{{ path('article_remove', {'id': produit.id}) }}"><i class="material-icons red-text">delete</i></a> #}
-                                </td>
-                            </tr>
+                                
                             {% set i = i+1 %}
                     </table>
                 </div>

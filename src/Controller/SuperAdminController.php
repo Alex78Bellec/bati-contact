@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Produit;
 use App\Entity\Fabricant;
 use App\Entity\Distributeur;
+use App\Repository\ProduitRepository;
 use App\Form\AddRegistrationProduitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,21 +17,11 @@ class SuperAdminController extends AbstractController
     /**
      * @Route("/superadmin", name="super_admin")
      */
-    public function superAdmin()
+    public function superAdmin(ProduitRepository $repo)
     {
+        $distribs = $repo->myFindByDistrib('produit');
+
         $produit = $this->getDoctrine()->getRepository(Produit::class)->findby([]);
-        
-        /* $prod = $produit; */
-/*         $valeur = '';
-        foreach($produit as $key => $value)
-        {
-            foreach($value as $valeur)
-            {
-                return $valeur;
-            }
-
-        } */
-
         $fabricants = $this->getDoctrine()->getRepository(Fabricant::class)->findAll();
         $distributeurs = $this->getDoctrine()->getRepository(Distributeur::class)->findAll();
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
@@ -40,11 +31,10 @@ class SuperAdminController extends AbstractController
             'fabricants' => $fabricants,
             'distributeurs' => $distributeurs,
             'users' => $users,
-           /*  'valeur'=> $valeur, */
-
+            'distribs' => $distribs,
         ]);
     }
-    
+
 
     /**
      * @Route("/superadmin/ajout_produit", name="add_produit")

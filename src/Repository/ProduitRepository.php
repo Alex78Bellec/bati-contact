@@ -19,6 +19,18 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
 
+    public function myFindByDistrib($distrib)
+    {
+        $qb = $this->createQueryBuilder('produit')
+            ->leftJoin ('produits.distributeur','t')
+            ->where('t.marque = :marque')
+            ->setParameter('marque', $distrib);
+        
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
+    }
+
     // /**
     //  * @return Produit[] Returns an array of Produit objects
     //  */
