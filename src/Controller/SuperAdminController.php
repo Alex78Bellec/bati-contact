@@ -6,7 +6,9 @@ use App\Entity\User;
 use App\Entity\Produit;
 use App\Entity\Fabricant;
 use App\Entity\Distributeur;
+use App\Repository\ProduitRepository;
 use App\Form\AddRegistrationProduitType;
+use App\Repository\DistributeurRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,12 +18,12 @@ class SuperAdminController extends AbstractController
     /**
      * @Route("/superadmin", name="super_admin")
      */
-    public function superAdmin()
+    public function superAdmin(ProduitRepository $repo)
     {
-        $produit = $this->getDoctrine()->getRepository(Produit::class)->findBy(
-            [],
-        );
+        $distribs = $repo->myFindByDistrib('p');
+        /* $distribs = $repo->findByDistrib('d'); */
 
+        $produit = $this->getDoctrine()->getRepository(Produit::class)->findby([]);
         $fabricants = $this->getDoctrine()->getRepository(Fabricant::class)->findAll();
         $distributeurs = $this->getDoctrine()->getRepository(Distributeur::class)->findAll();
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
@@ -30,10 +32,11 @@ class SuperAdminController extends AbstractController
             'produits' => $produit,
             'fabricants' => $fabricants,
             'distributeurs' => $distributeurs,
-            'users' => $users
+            'users' => $users,
+            'distribs' => $distribs,
         ]);
     }
-    
+
 
     /**
      * @Route("/superadmin/ajout_produit", name="add_produit")
@@ -44,6 +47,7 @@ class SuperAdminController extends AbstractController
         $produits = $repository->findAll();
 
         $produits = new Produit;
+        $categorys = $produits->getCategory();
 
         $form = $this->createForm(AddRegistrationProduitType::class, $produits);
         $form->handleRequest($request);
@@ -62,7 +66,8 @@ class SuperAdminController extends AbstractController
 
         return $this->render('admin/ajoutProduit.html.twig', [
             'produits' => $produits,
-            'ProduitForm' => $form->createView()
+            'ProduitForm' => $form->createView(),
+            'categorys' => $categorys
         ]);
     }
 

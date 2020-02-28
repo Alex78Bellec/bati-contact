@@ -31,16 +31,6 @@ class Produit
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $fabricant;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $distributeur;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $matiere;
 
     /**
@@ -88,30 +78,6 @@ class Produit
         return $this;
     }
 
-    public function getFabricant(): ?string
-    {
-        return $this->fabricant;
-    }
-
-    public function setFabricant(string $fabricant): self
-    {
-        $this->fabricant = $fabricant;
-
-        return $this;
-    }
-
-    public function getDistributeur(): ?string
-    {
-        return $this->distributeur;
-    }
-
-    public function setDistributeur(string $distributeur): self
-    {
-        $this->distributeur = $distributeur;
-
-        return $this;
-    }
-
     public function getMatiere(): ?string
     {
         return $this->matiere;
@@ -134,6 +100,11 @@ class Produit
         $this->fabric = $fabric;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->category;
     }
 
     /**
@@ -161,5 +132,4 @@ class Produit
 
         return $this;
     }
-
 }
