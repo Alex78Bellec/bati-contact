@@ -104,7 +104,7 @@ class Produit
 
     public function __toString()
     {
-        return $this->marque;
+        return $this->category;
     }
 
     /**
