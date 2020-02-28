@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Produit;
+use App\Repository\ProduitRepository;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BaseController extends AbstractController
 {
-    
+
     /**
      * @Route("/", name="index")
      */
@@ -46,6 +50,15 @@ class BaseController extends AbstractController
         return $this->render('general/produit.html.twig', [
             'controller_name' => 'BaseController',
         ]);
-    }    
-    
+    }
+
+    /**
+     * @Route("/search", name="searchresult")
+     */
+    public function searchAction()
+    {
+        return $this->render('general/recherche.html.twig', [
+            'controller_name' => 'BaseController',
+        ]);
+    }
 }
