@@ -19,6 +19,20 @@ class DistributeurRepository extends ServiceEntityRepository
         parent::__construct($registry, Distributeur::class);
     }
 
+
+/*     public function findByDistrib($produit)
+    {
+        $qb = $this->createQueryBuilder('distributeur')
+            ->leftJoin ('distributeur.produits','p')
+            ->where('p.distrib = :distrib')
+            ->setParameter('distrib', $produit);
+        
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
+    } */
+    
+
     // /**
     //  * @return Distributeur[] Returns an array of Distributeur objects
     //  */

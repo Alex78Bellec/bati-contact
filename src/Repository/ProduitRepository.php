@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repository;
-
+use App\Entity\Distributeur;
 use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -21,10 +21,12 @@ class ProduitRepository extends ServiceEntityRepository
 
     public function myFindByDistrib($distrib)
     {
-        $qb = $this->createQueryBuilder('produit')
-            ->leftJoin ('produits.distributeur','t')
-            ->where('t.marque = :marque')
-            ->setParameter('marque', $distrib);
+        $qb = $this->createQueryBuilder('p')
+            /* ->select('produit.id') */
+            ->join ('p.distrib','d','WITH','d = :d');
+            /* ->where('d.id = :id') */
+
+            $qb->setParameter('d', $distrib);
         
         $query = $qb->getQuery();
         $results = $query->getResult();
