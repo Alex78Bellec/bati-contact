@@ -8,6 +8,7 @@ use App\Entity\Fabricant;
 use App\Entity\Distributeur;
 use App\Repository\ProduitRepository;
 use App\Form\AddRegistrationProduitType;
+use App\Repository\DistributeurRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +20,8 @@ class SuperAdminController extends AbstractController
      */
     public function superAdmin(ProduitRepository $repo)
     {
-        $distribs = $repo->myFindByDistrib('produit');
+        $distribs = $repo->myFindByDistrib('p');
+        /* $distribs = $repo->findByDistrib('d'); */
 
         $produit = $this->getDoctrine()->getRepository(Produit::class)->findby([]);
         $fabricants = $this->getDoctrine()->getRepository(Fabricant::class)->findAll();

@@ -20,6 +20,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{path('prod')}}">Produit</a>
                 </li>
+                
                 {% if not app.user %}
                 <li class="nav-item ">
                     <a class="nav-link text-white" href="{{path('security_registrationUser')}}">S'inscrire</a>
@@ -35,6 +36,7 @@
                 
            
                 {% endif %}
+
             </ul>
         </div>
     </nav>
