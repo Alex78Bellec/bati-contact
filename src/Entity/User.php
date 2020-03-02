@@ -90,7 +90,6 @@ class User implements UserInterface
     public function setRole(string $role): self
     {
         $this->role = $role;
-
         return $this;
     }
     public function __toString()

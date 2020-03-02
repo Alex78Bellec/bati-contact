@@ -46,8 +46,8 @@ class SecurityController extends AbstractController
         {   $hash = $encoder->encodePassword($user, $user->getPassword()); 
             $user->setPassword($hash);
             $user->setConfirmpassword($hash); // On hash le mot de passe et le confirme mot de passe pour ne pas qu'il soit rentré en dur dans la BDD
+            $user->setRole('ROLE_USER'); 
             $manager->persist($user);  // on fait persisiter dans le temps l'utilisateur, on dit à symfony , prépare toi à la sauvegarder         
-            $user->setRole('ROLE_FAB');
             $manager->flush(); 
             return $this->redirectToRoute('login'); // on redirige vers la page login après inscription
         }
@@ -67,7 +67,7 @@ class SecurityController extends AbstractController
 */
 
 public function registrationFab(Request $request, EntityManagerInterface $manager) 
-{   
+{       $user = new User();
         $fab = new Fabricant();
         $formFab = $this->createForm(RegistrationFabType::class , $fab ); 
         $formFab->handleRequest($request);
@@ -75,12 +75,13 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
        
         
         if($formFab->isSubmitted() && $formFab->isValid()) //Si le formulaire est validé et que tous les champs sont correctes on entre dans la condition
-        {  
+        {     
             $manager->persist($fab);   
             $user = $this->getUser();
             $fab->setUser($user);
+            $user->setRole('ROLE_FAB');
             $manager->flush(); 
-           // return $this->redirectToRoute('FabOrDist'); // on redirige vers la page login après FabOrDist
+           return $this->redirectToRoute('prod'); // on redirige vers la page login après 
         }
 
     return $this->render('security/addFab.html.twig', [
@@ -96,7 +97,7 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
 */
 
     public function registrationDist(Request $request, EntityManagerInterface $manager) 
-    {
+    {   $user = new User();
         $dist = new Distributeur();
         $formDist = $this->createForm(RegistrationDistType::class , $dist); 
         $formDist->handleRequest($request);
@@ -105,11 +106,12 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
         
         if($formDist->isSubmitted() && $formDist->isValid()) //Si le formulaire est validé et que tous les champs sont correctes on entre dans la condition
         {  
-            $manager->persist($dist);   
+            $manager->persist($dist);  
             $user = $this->getUser();
-            $dist->setUser($user);
+            $dist->setUser($user);  
+            $user->setRole('ROLE_DIST');
             $manager->flush(); 
-           // return $this->redirectToRoute('FabOrDist'); // on redirige vers la page login après FabOrDist
+            return $this->redirectToRoute('prod'); // on redirige vers la page login après FabOrDist
         }
 
         return $this->render('security/addDist.html.twig', [
