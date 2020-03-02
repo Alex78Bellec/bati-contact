@@ -1,1 +1,21 @@
 {% extends 'base.html.twig' %}
+
+{% form_theme formContact 'bootstrap_4_layout.html.twig' %}
+
+{% block content %}
+
+<div class="col-md-4 mx-auto">
+<h1>Contactez-nous</h1>
+    {{form_start(formContact)}}
+
+    {{ form_row(formContact.firstname) }}
+    {{ form_row(formContact.lastname) }}
+    {{ form_row(formContact.phone) }}
+    {{ form_row(formContact.email) }}
+    {{ form_row(formContact.message) }}
+
+<button type="submit" class="btn btn-primary">Envoyez Email</button>
+    {{form_end(formContact)}}
+
+</div>
+{% endblock %}

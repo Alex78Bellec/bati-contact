@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
 use App\Entity\Produit;
-use App\Repository\ProduitRepository;
+use App\Form\ContactType;
 use Doctrine\DBAL\Types\TextType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
+use App\Repository\ProduitRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Notification\ContactNotification;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BaseController extends AbstractController
 {
@@ -53,21 +57,37 @@ class BaseController extends AbstractController
     }
 
     /**
+     * @Route("/contact", name="bati_contact")
+     */
+    public function contact(Request $request, EntityManagerInterface $manager, ContactNotification $notification)
+    {
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $notification->notify($contact);
+            
+            $this->addFlash('success', 'Votre Email a bien été envoyé');
+
+            $manager->persist($contact); // on prépare l'insertion
+            $manager->flush(); // on execute l'insertion
+
+        }
+        
+        return $this->render("contact/nous-contacter.html.twig", [
+            'formContact' => $form->createView()
+        ]);
+    }
+
+    /**
      * @Route("/contact-pros", name="contactPros")
      */
     public function contactpros()
     {
         return $this->render('contact/contact-pros.html.twig', [
-            'controller_name' => 'ContactController',
-        ]);
-    }
-
-    /**
-     * @Route("/contact-us", name="contactUs")
-     */
-    public function contactus()
-    {
-        return $this->render('contact/nous-contacter.html.twig', [
             'controller_name' => 'ContactController',
         ]);
     }
