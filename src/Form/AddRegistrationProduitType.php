@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AddRegistrationProduitType extends AbstractType
 {
@@ -19,14 +20,15 @@ class AddRegistrationProduitType extends AbstractType
             ->add('type')
             ->add('matiere')
             ->add('fabric')
-            ->add('distrib')
+            ->add('distrib');
+            
 
-        ->add('category', EntityType::class, [
+/*         ->add('category', EntityType::class, [
             'class' => Produit::class,
             'choice_value' => function (Produit $category = null) {
                 return $category ? $category->getId() : '';
             },
-        ]);
+        ]); */
     }
 
     public function configureOptions(OptionsResolver $resolver)

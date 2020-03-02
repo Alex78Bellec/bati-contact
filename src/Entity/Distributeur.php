@@ -44,13 +44,13 @@ class Distributeur
     private $telephone;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\user", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Produit", mappedBy="distrib")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Produit", cascade={"persist", "remove"}, mappedBy="distrib", orphanRemoval=true)
      */
     private $produits;
 

@@ -17,7 +17,6 @@ class RegistrationUserType extends AbstractType
             ->add('username')
             ->add('password',PasswordType::class)
             ->add('confirmpassword',PasswordType::class)
-           
         ;
     }
 
