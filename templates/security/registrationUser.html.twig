@@ -1,11 +1,20 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme formUser 'bootstrap_4_layout.html.twig' %}
+
 {% block content %}
+<div class="col-md-4 mx-auto">
 {{ form_start(formUser) }}
+
+
+
+
         
     <button type="submit" class="btn btn-primary">S'inscrire</button>
+
         
     {{ form_end(formUser) }}
-      
+<button type="submit" class="btn btn-primary">S'inscrire</button>
+</div>
 {% endblock  %}
 

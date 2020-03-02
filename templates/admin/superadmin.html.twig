@@ -20,7 +20,7 @@
                         {% set i = 1 %}
                         {# {% dump valeur %} #}
                         {# {% dump produits %} #}
-                        {% dump  distribs %}
+                        {# {% dump  distribs %} #}
 
                 {% for produit in produits %}
                 <tr>
@@ -37,8 +37,8 @@
 
                         <td>{{ produit.fabric }}</td>
 
-                    <td><a href="{# {{ path('article_edit', {'id': produit.id}) }} #}"><i class="btn btn-warning btn-sm">Modifier</i></a>
-                    <a href="{# {{ path('article_remove', {'id': produit.id}) }} #}"><i class="btn btn-danger btn-sm">Supprimer</i></a></td>
+                    <td><a href=" {{ path('update_produit', {'id': produit.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+                    <a href="{{ path('delete_produit', {'id': produit.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a>
                     </tr>
                 {% endfor %}
                                 
@@ -49,7 +49,7 @@
 
             <div class="row">
                 <div class="col s12">
-                <a href="{# {{ path('add_produit') }} #}" class="btn btn-primary" style="float: right">Ajouter Utilisateurs</a>
+                <a href="{{ path('security_registrationUser') }}" class="btn btn-primary" style="float: right">Ajouter Utilisateurs</a>
                     <h5>Utilisateurs</h5>
                     <table class="table table-dark table-striped">
                         <tr>
@@ -62,12 +62,12 @@
                         {% for user in users %}
                             <tr>
                                 <td>{{ i }}</td>
-                                <td>{{ user.name }}</td>
+                                <td>{{ user.username }}</td>
                                 <td>{{ user.password }}</td>
                                 <td>{{ user.role }}</td>
 
-                                <td><a href="{# {{ path('article_edit', {'id': produit.id}) }} #}"><i class="btn btn-warning btn-sm">Modifier</i></a>
-                                <a href="{# {{ path('article_remove', {'id': produit.id}) }} #}"><i class="btn btn-danger btn-sm">Supprimer</i></a></td>
+                                <td><a href=" {{ path( 'update_user', {'id': user.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+                                {# <a href="{{ path('delete_user', {'id': user.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a> #}</td>
 
                             </tr>
                             {% set i = i+1 %}
@@ -78,7 +78,7 @@
 
             <div class="row">
                 <div class="col s12">
-                <a href="{# {{ path('article_add') }} #}" class="btn btn-primary" style="float: right">Ajouter Distributeur</a> 
+                <a href="{{ path('security_addDist') }}" class="btn btn-primary" style="float: right">Ajouter Distributeur</a> 
                     <h5>Distributeur</h5>
                     <table class="table table-dark table-striped">
                         <tr>
@@ -99,8 +99,8 @@
                                 <td>{{ distributeur.email }}</td>
                                 <td>{{ distributeur.telephone }}</td>
 
-                                <td><a href="{# {{ path('article_edit', {'id': produit.id}) }} #}"><i class="btn btn-warning btn-sm">Modifier</i></a>
-                                <a href="{# {{ path('article_remove', {'id': produit.id}) }} #}"><i class="btn btn-danger btn-sm">Supprimer</i></a></td>
+                                <td><a href="{{ path('update_distrib', {'id': distributeur.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+                                <a href="{{ path('delete_distrib', {'id': distributeur.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a></td>
                             </tr>
                             {% set i = i+1 %}
                         {% endfor %}
@@ -110,7 +110,7 @@
 
             <div class="row">
                 <div class="col s12">
-                <a href="{# {{ path('add_produit') }} #}" class="btn btn-primary" style="float: right">Ajouter Fabriquant</a>
+                <a href="{{ path('security_addFab') }}" class="btn btn-primary" style="float: right">Ajouter Fabriquant</a>
                     <h5>Fabriquant</h5>
                     <table class="table table-dark ">
                         <tr>
@@ -131,8 +131,8 @@
                                 <td>{{ fabricant.email }}</td>
                                 <td>{{ fabricant.telephone }}</td>
 
-                                <td><a href="{# {{ path('article_edit', {'id': produit.id}) }} #}"><i class="btn btn-warning btn-sm">Modifier</i></a>
-                                <a href="{# {{ path('article_remove', {'id': produit.id}) }} #}"><i class="btn btn-danger btn-sm">Supprimer</i></a></td>
+                                <td><a href=" {{ path('update_fabric', {'id': fabricant.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+                                <a href="{{ path('delete_fabric', {'id': fabricant.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a></td>
                             </tr>
                             {% set i = i+1 %}
                         {% endfor %}

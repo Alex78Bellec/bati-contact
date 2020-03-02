@@ -44,13 +44,13 @@ class Fabricant
     private $telephone;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\user", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Produit", mappedBy="fabric",cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Produit", mappedBy="fabric",cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $produits;
 

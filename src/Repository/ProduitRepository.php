@@ -19,19 +19,19 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
 
-    public function myFindByDistrib($distrib)
+/*     public function myFindByDistrib($distrib)
     {
         $qb = $this->createQueryBuilder('p')
             /* ->select('produit.id') */
-            ->join ('p.distrib','d','WITH','d = :d');
+            /* ->join ('p.distrib','d','WITH','d = :d'); */
             /* ->where('d.id = :id') */
-
+/* 
             $qb->setParameter('d', $distrib);
         
         $query = $qb->getQuery();
         $results = $query->getResult();
-        return $results;
-    }
+        return $results; */
+  /*   } */
 
     // /**
     //  * @return Produit[] Returns an array of Produit objects

@@ -40,7 +40,6 @@ class SecurityController extends AbstractController
 
         $form->handleRequest($request);
 
-       
         
         if($form->isSubmitted() && $form->isValid()) //Si le formulaire est validé et que tous les champs sont correctes on entre dans la condition
         {   $hash = $encoder->encodePassword($user, $user->getPassword()); 
@@ -58,7 +57,7 @@ class SecurityController extends AbstractController
             'formUser' => $form->createView(), //On créer la vu du formulaire pour l'intégrer dans la vu twig
             
             ]);
-      
+
     }
 
 
