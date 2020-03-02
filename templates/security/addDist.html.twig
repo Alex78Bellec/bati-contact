@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formDist 'bootstrap_4_layout.html.twig' %}
+
+{% block content %}
+<div class="col-md-4 mx-auto">
+{{ form_start(formDist) }}
+     {{form_row(formDist.marque)}}
+      {{form_row(formDist.siret)}}
+       {{form_row(formDist.ville)}}
+        {{form_row(formDist.email)}}
+         {{form_row(formDist.telephone)}}
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+{{ form_end(formDist) }}
+
+</div>
+{% endblock  %}
+

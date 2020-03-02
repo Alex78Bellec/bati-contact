@@ -4,10 +4,12 @@ namespace App\Form;
 
 use App\Entity\Produit;
 use App\Entity\Fabricant;
+use App\Entity\Distributeur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AddRegistrationProduitType extends AbstractType
 {
@@ -16,18 +18,17 @@ class AddRegistrationProduitType extends AbstractType
         $builder
             ->add('category')
             ->add('type')
-            ->add('fabricant')
-            ->add('distributeur')
             ->add('matiere')
             ->add('fabric')
-            ->add('distrib')
+            ->add('distrib');
+            
 
-        ->add('fabricant', EntityType::class, [
-            'class' => Fabricant::class,
-            'choice_value' => function (Fabricant $fabricant = null) {
-                return $fabricant ? $fabricant->getId() : '';
+/*         ->add('category', EntityType::class, [
+            'class' => Produit::class,
+            'choice_value' => function (Produit $category = null) {
+                return $category ? $category->getId() : '';
             },
-        ]);
+        ]); */
     }
 
     public function configureOptions(OptionsResolver $resolver)
