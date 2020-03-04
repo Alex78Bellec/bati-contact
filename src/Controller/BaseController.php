@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Produit;
 use App\Repository\ProduitRepository;
-use Doctrine\DBAL\Types\TextType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BaseController extends AbstractController
 {
@@ -75,10 +77,21 @@ class BaseController extends AbstractController
     /**
      * @Route("/search", name="searchresult")
      */
-    public function searchAction()
+    public function rechAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+     
+
+        $motcle=$request->get('motcle');
+
+        $listeDesProduits= $em->getRepository(User::class)->findBy(array('username' => $motcle));
+        
+        
+        
+        
         return $this->render('general/recherche.html.twig', [
-            'controller_name' => 'BaseController',
+            'controller_name' => 'ContactController',
         ]);
     }
+
 }

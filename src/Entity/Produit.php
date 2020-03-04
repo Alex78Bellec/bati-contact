@@ -117,7 +117,8 @@ class Produit
 
     public function addDistrib(distributeur $distrib): self
     {
-        if (!$this->distrib->contains($distrib)) {
+        if (!$this->distrib->contains($distrib)) 
+        {
             $this->distrib[] = $distrib;
         }
 
