@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
+
+use App\Entity\User;
 use App\Entity\Contact;
 use App\Entity\Produit;
 use App\Form\ContactType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Repository\ProduitRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Notification\ContactNotification;
 use Symfony\Component\HttpFoundation\Request;
@@ -248,4 +253,5 @@ class BaseController extends AbstractController
             /* 'alltypes'=>$allTypes, */
         ]);
     }
+
 }

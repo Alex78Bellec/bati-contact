@@ -86,7 +86,7 @@ class SecurityController extends AbstractController
         {   $hash = $encoder->encodePassword($user, $user->getPassword()); 
             $user->setPassword($hash);
             $user->setConfirmpassword($hash); // On hash le mot de passe et le confirme mot de passe pour ne pas qu'il soit rentré en dur dans la BDD
-            $user->setRole('ROLE_USER'); 
+            $user->setRoles(["ROLE_USER"]); 
             $manager->persist($user);  // on fait persisiter dans le temps l'utilisateur, on dit à symfony , prépare toi à la sauvegarder         
             $manager->flush(); 
             return $this->redirectToRoute('login'); // on redirige vers la page login après inscription
@@ -139,7 +139,7 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
             $manager->persist($fab);   
             $user = $this->getUser();
             $fab->setUser($user);
-            $user->setRole('ROLE_FAB');
+            $user->setRoles(["ROLE_FAB"]);
             $manager->flush(); 
            return $this->redirectToRoute('prod'); // on redirige vers la page login après 
         }
@@ -189,7 +189,7 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
             $manager->persist($dist);  
             $user = $this->getUser();
             $dist->setUser($user);  
-            $user->setRole('ROLE_DIST');
+            $user->setRoles(["ROLE_DIST"]);
             $manager->flush(); 
             return $this->redirectToRoute('prod'); // on redirige vers la page login après FabOrDist
         }
