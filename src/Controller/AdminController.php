@@ -28,6 +28,7 @@ class AdminController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {

@@ -33,6 +33,7 @@ class BaseController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -61,6 +62,7 @@ class BaseController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -89,6 +91,7 @@ class BaseController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -118,6 +121,7 @@ class BaseController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -146,6 +150,7 @@ class BaseController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -191,6 +196,7 @@ class BaseController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {

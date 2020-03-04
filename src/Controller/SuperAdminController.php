@@ -84,6 +84,7 @@ class SuperAdminController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -137,6 +138,7 @@ class SuperAdminController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -198,6 +200,7 @@ class SuperAdminController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -218,7 +221,9 @@ class SuperAdminController extends AbstractController
         return $this->redirectToRoute('super_admin');
 
         // On renvoie les informations dans la VUE
-        return $this->render('admin/superadmin.html.twig');
+        return $this->render('admin/superadmin.html.twig',[
+            'allproduits'=>$allProduits,
+        ]);
     }
 
     // -----------------------UTILISATEUR------------------------//
@@ -239,6 +244,7 @@ class SuperAdminController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -296,6 +302,7 @@ class SuperAdminController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -334,6 +341,7 @@ class SuperAdminController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -388,6 +396,7 @@ class SuperAdminController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -430,6 +439,7 @@ class SuperAdminController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
