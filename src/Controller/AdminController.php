@@ -3,19 +3,42 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ProduitRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminController extends AbstractController
 {
     /**
      * @Route("/admin", name="admin")
      */
-    public function index()
+    public function index(ProduitRepository $produitRepository, Request $request)
     {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
         return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
         ]);
     }
 
