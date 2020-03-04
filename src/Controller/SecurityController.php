@@ -36,6 +36,7 @@ class SecurityController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -68,6 +69,7 @@ class SecurityController extends AbstractController
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -118,6 +120,7 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
     {
         $prod = $produit->getCategory();
         $allProduits = $produitRepository->searchProduit($prod);
+        return $this->redirectToRoute('searchresult');
     }
     else
     {
@@ -167,6 +170,7 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -215,6 +219,7 @@ public function FabOrDist(ProduitRepository $produitRepository, Request $request
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -243,6 +248,7 @@ return $this->render('security/FabOrDist.html.twig',[
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
@@ -283,6 +289,7 @@ public function profil(ProduitRepository $produitRepository, Request $request)
         {
             $prod = $produit->getCategory();
             $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
         }
         else
         {
