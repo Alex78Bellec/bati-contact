@@ -15,6 +15,7 @@ use App\Repository\DistributeurRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -23,10 +24,32 @@ class SuperAdminController extends AbstractController
     /**
      * @Route("/superadmin", name="super_admin")
      */
-    public function superAdmin(ProduitRepository $repo)
+    public function superAdmin(ProduitRepository $repo, ProduitRepository $produitRepository, Request $request)
     {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+            /* return $this->redirectToRoute('searchresult'); */
+        }
+
+
         /* $distribs = $repo->myFindByDistrib('p'); */
         /* $distribs = $repo->findByDistrib('d'); */
+/*         $distrib = $produit->getDistrib();
+        $allDistrib = $produitRepository->findByDistrib($distrib); */
 
         $produit = $this->getDoctrine()->getRepository(Produit::class)->findby([]);
         $fabricants = $this->getDoctrine()->getRepository(Fabricant::class)->findAll();
@@ -38,7 +61,9 @@ class SuperAdminController extends AbstractController
             'fabricants' => $fabricants,
             'distributeurs' => $distributeurs,
             'users' => $users,
-            /* 'distribs' => $distribs, */
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+            /* 'alldistribs'=>$allDistrib, */
         ]);
     }
 
@@ -46,8 +71,26 @@ class SuperAdminController extends AbstractController
     /**
      * @Route("/superadmin/ajout_produit", name="add_produit")
      */
-    public function addProduit(Request $request)
+    public function addProduit(Request $request, ProduitRepository $produitRepository)
     {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
         $repository = $this->getDoctrine()->getRepository(Produit::class);
         $produits = $repository->findAll();
 
@@ -72,15 +115,34 @@ class SuperAdminController extends AbstractController
         return $this->render('admin/ajoutProduit.html.twig', [
             'produits' => $produits,
             'ProduitForm' => $form->createView(),
-            'categorys' => $categorys
+            'categorys' => $categorys,
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
         ]);
     }
 
     /**
      * @Route("/superadmin/update_produit/{id}", name="update_produit")
      */ 
-    public function editProduit($id, Request $request)
+    public function editProduit($id, Request $request, ProduitRepository $produitRepository)
     { 
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
 
         $repository = $this->getDoctrine()->getRepository(Produit::class);
         $produits = $repository->findAll();
@@ -115,14 +177,34 @@ class SuperAdminController extends AbstractController
 
             'produits' => $produits,
             'ProduitForm' => $form->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
         ]);
     }
 
     /**
      * @Route("/superadmin/supprimer_produit/{id}", name="delete_produit")
      */
-    public function deleteProduit($id)
+    public function deleteProduit($id, ProduitRepository $produitRepository, Request $request)
     {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
         $manager = $this->getDoctrine()->getManager();
         // On récupère l'objet de la BDD en fonction de son *ID
         $produit = $manager->find(Produit::class, $id);
@@ -144,8 +226,27 @@ class SuperAdminController extends AbstractController
     /**
      * @Route("/superadmin/update_user/{id}", name="update_user")
      */ 
-    public function editUser($id, Request $request, UserPasswordEncoderInterface $encoder)
+    public function editUser($id, Request $request, UserPasswordEncoderInterface $encoder, ProduitRepository $produitRepository)
     {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
+
         $repository = $this->getDoctrine()->getRepository(User::class);
         $users = $repository->findAll();
 
@@ -172,6 +273,8 @@ class SuperAdminController extends AbstractController
         return $this->render('security/registrationUser.html.twig', [
             'users' => $users,
             'formUser' => $form->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
         ]);
     }
 
@@ -180,8 +283,26 @@ class SuperAdminController extends AbstractController
     /**
      * @Route("/superadmin/supprimer_distributeur/{id}", name="delete_distrib")
      */
-    public function deleteDistributeur($id)
+    public function deleteDistributeur($id, ProduitRepository $produitRepository, Request $request)
     {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
         $manager = $this->getDoctrine()->getManager();
         $distributeur = $manager->find(Distributeur::class, $id);
 
@@ -191,14 +312,35 @@ class SuperAdminController extends AbstractController
         $this->addFlash('success', 'Le distributeur est bien supprimé');
         return $this->redirectToRoute('super_admin');
 
-        return $this->render('admin/superadmin.html.twig');
+        return $this->render('admin/superadmin.html.twig',[
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+        ]);
     }
 
     /**
      * @Route("/superadmin/update_distrib/{id}", name="update_distrib")
      */ 
-    public function editDtributeur($id, Request $request)
+    public function editDtributeur($id, Request $request, ProduitRepository $produitRepository)
     {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
         $repository = $this->getDoctrine()->getRepository(Distributeur::class);
         $distributeurs = $repository->findAll();
 
@@ -222,6 +364,8 @@ class SuperAdminController extends AbstractController
         return $this->render('security/addDist.html.twig', [
             'distributeurs' => $distributeurs,
             'formDist' => $form->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
         ]);
     }
 
@@ -231,8 +375,26 @@ class SuperAdminController extends AbstractController
     /**
      * @Route("/superadmin/supprimer_fabric/{id}", name="delete_fabric")
      */
-    public function deleteFabriquant($id)
-    {
+    public function deleteFabriquant($id, ProduitRepository $produitRepository, Request $request)
+    { 
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
         $manager = $this->getDoctrine()->getManager();
         // On récupère l'objet de la BDD en fonction de son *ID
         $fabriquant = $manager->find(Fabricant::class, $id);
@@ -246,14 +408,35 @@ class SuperAdminController extends AbstractController
         return $this->redirectToRoute('super_admin');
 
         // On renvoie les informations dans la VUE
-        return $this->render('admin/superadmin.html.twig');
+        return $this->render('admin/superadmin.html.twig',[
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+        ]);
     }
 
     /**
      * @Route("/superadmin/update_fabric/{id}", name="update_fabric")
      */ 
-    public function editFabriquant($id, Request $request)
+    public function editFabriquant($id, Request $request, ProduitRepository $produitRepository)
     {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
         $repository = $this->getDoctrine()->getRepository(Fabricant::class);
         $fabriquants= $repository->findAll();
 
@@ -277,6 +460,8 @@ class SuperAdminController extends AbstractController
         return $this->render('security/addFab.html.twig', [
             'fabriquants' => $fabriquants,
             'formFab' => $form->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
         ]);
     }
 }

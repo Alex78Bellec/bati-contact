@@ -3,14 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Produit;
 use App\Entity\Fabricant;
 use App\Entity\Distributeur;
 use App\Form\RegistrationFabType;
 use App\Form\RegistrationDistType;
 use App\Form\RegistrationUserType;
+use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -20,10 +23,29 @@ class SecurityController extends AbstractController
     /**
      * @Route("/security", name="security")
      */
-    public function index()
+    public function index(ProduitRepository $produitRepository, Request $request)
     {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
         return $this->render('security/index.html.twig', [
-            'controller_name' => 'SecurityController',
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
         ]);
     }
 
@@ -32,8 +54,25 @@ class SecurityController extends AbstractController
 * @Route("/inscriptionUser", name="security_registrationUser") 
 */
 
-    public function registrationUser(Request $request, EntityManagerInterface $manager,UserPasswordEncoderInterface $encoder) 
+    public function registrationUser(Request $request, EntityManagerInterface $manager,UserPasswordEncoderInterface $encoder, ProduitRepository $produitRepository) 
     {   
+
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
         
         $user = new User();
         $form = $this->createForm(RegistrationUserType::class , $user ); 
@@ -55,7 +94,8 @@ class SecurityController extends AbstractController
         return $this->render('security/registrationUser.html.twig', [
             'controller_name' => 'SecurityController',
             'formUser' => $form->createView(), //On créer la vu du formulaire pour l'intégrer dans la vu twig
-            
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
             ]);
 
     }
@@ -65,13 +105,31 @@ class SecurityController extends AbstractController
 * @Route("/ajoutFab", name="security_addFab") 
 */
 
-public function registrationFab(Request $request, EntityManagerInterface $manager) 
-{       $user = new User();
+public function registrationFab(Request $request, EntityManagerInterface $manager, ProduitRepository $produitRepository) 
+{       
+    $produit = New Produit;
+    $formSearch = $this->createFormBuilder($produit)
+                ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                ->getForm();
+
+    $formSearch->handleRequest($request);
+
+    if($formSearch->isSubmitted() && $formSearch->isValid())
+    {
+        $prod = $produit->getCategory();
+        $allProduits = $produitRepository->searchProduit($prod);
+    }
+    else
+    {
+        $allProduits = $produitRepository->findAll();
+    }
+
+
+        $user = new User();
         $fab = new Fabricant();
         $formFab = $this->createForm(RegistrationFabType::class , $fab ); 
         $formFab->handleRequest($request);
 
-       
         
         if($formFab->isSubmitted() && $formFab->isValid()) //Si le formulaire est validé et que tous les champs sont correctes on entre dans la condition
         {     
@@ -86,22 +144,41 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
     return $this->render('security/addFab.html.twig', [
         'controller_name' => 'SecurityController',
         'formFab' => $formFab->createView(),
+        'formSearch'=>$formSearch->createView(),
+        'allproduits'=>$allProduits,
     ]);
 }
-
 
 
 /**
 * @Route("/ajoutDist", name="security_addDist") 
 */
 
-    public function registrationDist(Request $request, EntityManagerInterface $manager) 
-    {   $user = new User();
+    public function registrationDist(Request $request, EntityManagerInterface $manager, ProduitRepository $produitRepository) 
+    {   
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+        
+        
+        $user = new User();
         $dist = new Distributeur();
         $formDist = $this->createForm(RegistrationDistType::class , $dist); 
         $formDist->handleRequest($request);
 
-       
         
         if($formDist->isSubmitted() && $formDist->isValid()) //Si le formulaire est validé et que tous les champs sont correctes on entre dans la condition
         {  
@@ -116,25 +193,63 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
         return $this->render('security/addDist.html.twig', [
             'controller_name' => 'SecurityController',
             'formDist' => $formDist->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
         ]);
     }
 
 /**
 * @Route("/fabricantOUdistributeurs", name="FabOrDist") 
 */
-public function FabOrDist()
+public function FabOrDist(ProduitRepository $produitRepository, Request $request)
 {
 
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
 return $this->render('security/FabOrDist.html.twig',[
-    'controller_name' => 'SecurityController',
+    'formSearch'=>$formSearch->createView(),
+    'allproduits'=>$allProduits,
     ]);
 }
 
 /**
 * @Route("/login", name="login") 
 */
-    public function login(Request $request,AuthenticationUtils $authenticationUtils)
+    public function login(Request $request,AuthenticationUtils $authenticationUtils, ProduitRepository $produitRepository)
     {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
         $error = $authenticationUtils->getLastAuthenticationError();
           $lastUsername = $authenticationUtils->getLastUsername();
           
@@ -143,6 +258,8 @@ return $this->render('security/FabOrDist.html.twig',[
     return $this->render('security/login.html.twig', array(
         'last_username' => $lastUsername,
         'error'         => $error,
+        'formSearch'=>$formSearch->createView(),
+        'allproduits'=>$allProduits,
     ));
  
 
@@ -152,12 +269,29 @@ return $this->render('security/FabOrDist.html.twig',[
 /**
 * @Route("/profil", name="profil") 
 */
-public function profil()
+public function profil(ProduitRepository $produitRepository, Request $request)
 {
 
+    $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
 return $this->render('security/profil.html.twig',[
-    'controller_name' => 'SecurityController',
-    
+    'formSearch'=>$formSearch->createView(),
+    'allproduits'=>$allProduits,
     ]);
 
 }
