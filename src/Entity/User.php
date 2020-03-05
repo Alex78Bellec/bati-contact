@@ -33,9 +33,9 @@ class User implements UserInterface
     private $confirmpassword;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="string", length=255)
      */
-    private $roles=[];
+    private $role;
 
     public function eraseCredentials() {}
     public function getSalt() {}
@@ -81,21 +81,24 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles(): array
+    public function getRole(): ?string
     {
-        $roles = $this->roles;
 
-        if (empty($roles)) {
-            $roles[] = 'ROLE_USER';
-        }
-
-        return array_unique($roles);
+        return $this->role;
     }
 
-    public function setRoles(array $roles): void
+    public function setRole(string $role): self
     {
-        $this->roles = $roles;
+        $this->role = $role;
+        return $this;
     }
-
+    public function __toString()
+    {
+        return $this->role;
+    }
+    public function getRoles() 
+    {   
+        return ['ROLE_USER']; 
+    }
   
 }
