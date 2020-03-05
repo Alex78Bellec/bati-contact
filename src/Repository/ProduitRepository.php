@@ -19,39 +19,19 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
 
-    public function searchProduit($prod)
-    {
-        return $this->createQueryBuilder('Produit')
-                    ->andWhere('Produit.category LIKE :cate')
-                    ->setParameter('cate','%'.$prod.'%')
-                    ->getQuery()
-                    ->execute();
-
-    }
-
-/*     public function findByDistrib($distrib)
-    {
-        return $this->createQueryBuilder('Produit')
-                    ->andWhere('(Produit.distrib) = :distrib')
-                    ->setParameter('distrib','%'.$distrib.'%')
-                    ->getQuery()
-                    ->execute();
-
-    }
- */
 /*     public function myFindByDistrib($distrib)
     {
         $qb = $this->createQueryBuilder('p')
-            ->select('p.distrib')
-            ->join ('p.distrib','d','WITH','d = :d')
-            ->where('d.id = :id');
-
+            /* ->select('produit.id') */
+            /* ->join ('p.distrib','d','WITH','d = :d'); */
+            /* ->where('d.id = :id') */
+/* 
             $qb->setParameter('d', $distrib);
         
         $query = $qb->getQuery();
         $results = $query->getResult();
-        return $results; 
-    }  */
+        return $results; */
+  /*   } */
 
     // /**
     //  * @return Produit[] Returns an array of Produit objects

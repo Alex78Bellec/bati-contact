@@ -38,6 +38,6 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-            - { path: ^/profile, role: ROLE_FAB}
-            - { path: ^/superadmin, role: ROLE_SUPERADMIN }
+            - { path: ^/profile, roles: ROLE_FAB}
+         # - { path: ^/admin, roles: ROLE_ADMIN }
 
