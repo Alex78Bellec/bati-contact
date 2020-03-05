@@ -2,28 +2,28 @@
 
 namespace App\Form;
 
-use App\Entity\Fabricant;
+use App\Entity\Contact;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RegistrationFabType extends AbstractType
+class ContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('marque')
-            ->add('siret')
-            ->add('ville')
+            ->add('firstname')
+            ->add('lastname')
+            ->add('phone')
             ->add('email')
-            ->add('telephone')
+            ->add('message')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Fabricant::class,
+            'data_class' => Contact::class,
         ]);
     }
 }
