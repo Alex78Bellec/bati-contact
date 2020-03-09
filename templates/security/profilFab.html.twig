@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bati-Contact{% endblock %}
+
+{% block content %}
+
+    <h5 class="text-center mt-4">Profil</h5>
+    <table class="table table-dark table-striped w-50 mx-auto">
+        <tr>
+            <th>Nom d'tulisateur</th>
+            <th>Mot de passe</th>
+            {# <th>Role</th> #}
+        </tr>
+      
+            <tr>
+                <td>{{ app.user.username }}</td>
+                <td>{{ app.user.password }}</td>
+                {# <td>{{ user.role }}</td> #}
+
+                <td><a href="{{ path( 'update_userFab', {'id': app.user.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+                {# <a href="{{ path('delete_user', {'id': user.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a> #}</td>
+
+            </tr>
+
+            <th>Informations d'entreprise</th>
+            {# <th>Role</th> #}
+        </tr>
+      
+      
+    <tr>
+
+
+        <td><a href=" {{ path('updateProfil_fabric', {'id': app.user.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+    </tr>
+ 
+
+    </table>
+
+{% endblock %}

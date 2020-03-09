@@ -139,7 +139,9 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
             $manager->persist($fab);   
             $user = $this->getUser();
             $fab->setUser($user);
-            $user->setRoles(['ROLE_FAB']);
+            if($this-> isGranted('ROLE_USER', $user)){ 
+                $user->setRoles(['ROLE_FAB']);
+                }
             $manager->flush(); 
            return $this->redirectToRoute('prod'); // on redirige vers la page login après 
         }
@@ -189,7 +191,9 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
             $manager->persist($dist);  
             $user = $this->getUser();
             $dist->setUser($user);  
+            if($this-> isGranted('ROLE_USER', $user)){ 
             $user->setRoles(['ROLE_DIST']);
+            }
             $manager->flush(); 
             return $this->redirectToRoute('prod'); // on redirige vers la page login après FabOrDist
         }
@@ -273,9 +277,9 @@ return $this->render('security/FabOrDist.html.twig',[
     }
 
 /**
-* @Route("/profil", name="profil") 
+* @Route("/profilDist", name="profilDist") 
 */
-public function profil(ProduitRepository $produitRepository, Request $request)
+public function profilDist($id, ProduitRepository $produitRepository, Request $request)
 {
 
     $produit = New Produit;
@@ -296,12 +300,166 @@ public function profil(ProduitRepository $produitRepository, Request $request)
             $allProduits = $produitRepository->findAll();
         }
 
-return $this->render('security/profil.html.twig',[
+ 
+
+    
+
+
+
+return $this->render('security/profilDist.html.twig',[
     'formSearch'=>$formSearch->createView(),
     'allproduits'=>$allProduits,
     ]);
 
 }
+
+
+/**
+* @Route("/profilFab", name="profilFab") 
+*/
+public function profilFab(ProduitRepository $produitRepository, Request $request)
+{
+    $user=new User();
+    $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+ 
+        
+    
+
+
+
+return $this->render('security/profilFab.html.twig',[
+    'users' => $user,
+    'formSearch'=>$formSearch->createView(),
+    'allproduits'=>$allProduits,
+    ]);
+
+}
+
+
+ /**
+ * @Route("/profilFab/update_userFab/{id}", name="update_userFab")
+ */ 
+    public function editUser($id, Request $request, UserPasswordEncoderInterface $encoder, ProduitRepository $produitRepository)
+    {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
+
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $users = $repository->findAll();
+
+        $manager = $this->getDoctrine()->getManager();
+        $user = $manager->find(User::class, $id);
+
+        $form = $this->createForm(RegistrationUserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $hash = $encoder->encodePassword($user, $user->getPassword()); 
+            $user->setPassword($hash);
+            $user->setConfirmpassword($hash);
+            $manager->persist($user);
+
+            $manager->flush();
+
+            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            return $this->redirectToRoute('profilFab');
+        }
+
+        return $this->render('security/registrationUser.html.twig', [
+            'users' => $users,
+            'formUser' => $form->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+        ]);
+    }
+
+     /**
+     * @Route("/profilFab/updateProfil_fabric/{id}", name="updateProfil_fabric")
+     */ 
+    public function editFabriquant($id, Request $request, ProduitRepository $produitRepository)
+    {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {            
+            $prod = $produit->getCategory();
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
+        $repository = $this->getDoctrine()->getRepository(Fabricant::class);
+        $fabriquants= $repository->findAll();
+
+        $manager = $this->getDoctrine()->getManager();
+        $fabriquant = $manager->find(Fabricant::class, $id);
+        $form = $this->createForm(RegistrationFabType::class, $fabriquant);
+
+        $form->handleRequest($request);
+
+        if ($form-> $form->isSubmitted() && isValid())  {
+
+            // $manager->persist($fabriquant);
+            $manager->flush();
+
+            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            return $this->redirectToRoute('profilFab');
+        }
+
+        return $this->render('security/addFab.html.twig', [
+            'fabriquants' => $fabriquants,
+            'formFab' => $form->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+        ]);
+    }
+
+    
 
 /**
 * @Route("\deconnexion", name="logout") 
