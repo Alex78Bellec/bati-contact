@@ -37,6 +37,16 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{ path('logout') }}">Deconnexion</a> 
                 </li>
+				{% if is_granted('ROLE_DIST')  %}
+				<li class="nav-item">
+                    <a class="nav-link text-white" href="{{ path('profilDist') }}">Profil</a> 
+                </li>
+				{% endif %}
+				{% if is_granted('ROLE_FAB')  %}
+				<li class="nav-item">
+                    <a class="nav-link text-white" href="{{ path('profilFab') }}">Profil</a> 
+                </li>
+					{% endif %}	
 				{% if is_granted('ROLE_SUPERADMIN') %}
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{ path('super_admin') }}">SuperAdmin</a> 
