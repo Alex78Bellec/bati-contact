@@ -54,6 +54,11 @@ class Distributeur
      */
     private $produits;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $logo;
+
     public function __toString()
     {
         return $this->marque;
@@ -165,6 +170,18 @@ class Distributeur
             $this->produits->removeElement($produit);
             $produit->removeDistrib($this);
         }
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(string $logo): self
+    {
+        $this->logo = $logo;
 
         return $this;
     }

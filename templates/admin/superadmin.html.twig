@@ -16,6 +16,8 @@
                             <th>Matière</th>
                             <th>Distributeur</th>
                             <th>Fabriquant</th>
+                            <th>Photo</th>
+                            <th>Description</th>
                         </tr>
                         {% set i = 1 %}
                         {# {% dump valeur %} #}
@@ -29,13 +31,13 @@
                         <td>{{ produit.type }}</td>
                         <td>{{ produit.matiere }}</td>
 
-                    {# {% for distrib in distribs %} #}
-                    {# {% for dis in distrib.produits %} #}
-                        {# {<td>{{ alldistribs.marque}}</td> #}
-                    {# {% endfor %} #}
-                    {# {% endfor %}  #}  
+                        {% for distribs in produit.distrib %}
+                        <td>{{ distribs }}</td>
+                        {% endfor %}
 
                         <td>{{ produit.fabric }}</td>
+                        <td><img class="imgProduit" src="{{ asset('/Image/'~ produit.image) }}"></td>
+                        <td>{{ produit.content }}</td>
 
                     <td><a href=" {{ path('update_produit', {'id': produit.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
                     <a href="{{ path('delete_produit', {'id': produit.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a>
@@ -64,7 +66,6 @@
                                 <td>{{ i }}</td>
                                 <td>{{ user.username }}</td>
                                 <td>{{ user.password }}</td>
-                                {# <td>{{ user.role }}</td> #}
 
                                 <td><a href=" {{ path( 'update_user', {'id': user.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
                                 {# <a href="{{ path('delete_user', {'id': user.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a> #}</td>
@@ -88,6 +89,7 @@
                             <th>Ville</th>
                             <th>Email</th>
                             <th>Téléphone</th>
+                            <th>Logo</th>
                         </tr>
                         {% set i = 1 %}
                         {% for distributeur in distributeurs %}
@@ -98,6 +100,7 @@
                                 <td>{{ distributeur.ville }}</td>
                                 <td>{{ distributeur.email }}</td>
                                 <td>{{ distributeur.telephone }}</td>
+                                <td><img class="imgProduit" src="{{ asset('/Image/'~ distributeur.logo) }}"></td>
 
                                 <td><a href="{{ path('update_distrib', {'id': distributeur.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
                                 <a href="{{ path('delete_distrib', {'id': distributeur.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a></td>
@@ -120,6 +123,7 @@
                             <th>Ville</th>
                             <th>Email</th>
                             <th>Téléphone</th>
+                            <th>Logo</th>
                         </tr>
                         {% set i = 1 %}
                         {% for fabricant in fabricants %}
@@ -130,6 +134,7 @@
                                 <td>{{ fabricant.ville }}</td>
                                 <td>{{ fabricant.email }}</td>
                                 <td>{{ fabricant.telephone }}</td>
+                                <td><img class="imgProduit" src="{{ asset('/Image/'~ fabricant.logo) }}"></td>
 
                                 <td><a href=" {{ path('update_fabric', {'id': fabricant.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
                                 <a href="{{ path('delete_fabric', {'id': fabricant.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a></td>

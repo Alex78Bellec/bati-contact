@@ -35,6 +35,9 @@ class SecurityController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -68,6 +71,9 @@ class SecurityController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -119,6 +125,9 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
     if($formSearch->isSubmitted() && $formSearch->isValid())
     {
         $prod = $produit->getCategory();
+        $prod = $produit->getMatiere();
+        $prod = $produit->getType();
+
         $allProduits = $produitRepository->searchProduit($prod);
         return $this->redirectToRoute('searchresult');
     }
@@ -139,7 +148,9 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
             $manager->persist($fab);   
             $user = $this->getUser();
             $fab->setUser($user);
+            if($this-> isGranted('ROLE_USER', $user)){ 
             $user->setRoles(['ROLE_FAB']);
+            }
             $manager->flush(); 
            return $this->redirectToRoute('prod'); // on redirige vers la page login après 
         }
@@ -169,6 +180,9 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -188,10 +202,12 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
         {  
             $manager->persist($dist);  
             $user = $this->getUser();
-            $dist->setUser($user);  
+            $dist->setUser($user);
+            if($this-> isGranted('ROLE_USER', $user)){ 
             $user->setRoles(['ROLE_DIST']);
+            }
             $manager->flush(); 
-            return $this->redirectToRoute('prod'); // on redirige vers la page login après FabOrDist
+                return $this->redirectToRoute('prod'); // on redirige vers la page produit après FabOrDist
         }
 
         return $this->render('security/addDist.html.twig', [
@@ -218,6 +234,9 @@ public function FabOrDist(ProduitRepository $produitRepository, Request $request
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -247,6 +266,9 @@ return $this->render('security/FabOrDist.html.twig',[
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+            
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -257,9 +279,8 @@ return $this->render('security/FabOrDist.html.twig',[
 
 
         $error = $authenticationUtils->getLastAuthenticationError();
-          $lastUsername = $authenticationUtils->getLastUsername();
-          
-      
+        $lastUsername = $authenticationUtils->getLastUsername();
+
 
     return $this->render('security/login.html.twig', array(
         'last_username' => $lastUsername,
@@ -267,7 +288,7 @@ return $this->render('security/FabOrDist.html.twig',[
         'formSearch'=>$formSearch->createView(),
         'allproduits'=>$allProduits,
     ));
- 
+
 
     
     }
@@ -288,6 +309,9 @@ public function profil(ProduitRepository $produitRepository, Request $request)
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }

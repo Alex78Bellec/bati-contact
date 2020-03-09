@@ -5,6 +5,12 @@
 {% block content %}
 <div class="col-md-4 mx-auto">
 {{ form_start(formFab) }}
+     {{form_row(formFab.marque)}}
+      {{form_row(formFab.siret)}}
+       {{form_row(formFab.ville)}}
+        {{form_row(formFab.email)}}
+         {{form_row(formFab.telephone)}}
+         {{form_row(formFab.logo)}}
         <button type="submit" class="btn btn-primary">Ajouter</button>
 {{ form_end(formFab) }}
 
