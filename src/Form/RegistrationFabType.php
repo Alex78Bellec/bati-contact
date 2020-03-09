@@ -17,6 +17,7 @@ class RegistrationFabType extends AbstractType
             ->add('ville')
             ->add('email')
             ->add('telephone')
+            ->add('logo')
         ;
     }
 

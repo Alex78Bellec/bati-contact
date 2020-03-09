@@ -5,13 +5,14 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Entity\Produit;
 use App\Form\ContactType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Notification\ContactNotification;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BaseController extends AbstractController
@@ -32,6 +33,10 @@ class BaseController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+            $prod = $produit->getDistrib();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -61,6 +66,9 @@ class BaseController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -90,6 +98,9 @@ class BaseController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -120,6 +131,9 @@ class BaseController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -149,6 +163,9 @@ class BaseController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -195,6 +212,9 @@ class BaseController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -217,35 +237,28 @@ class BaseController extends AbstractController
 
         $produit = New Produit;
         $formSearch = $this->createFormBuilder($produit)
-                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->add('type',TextType::class,array('attr' => array('class' => 'form-control')))
                     ->getForm();
 
-/*         $formType = $this->createFormBuilder($produit)
-                    ->add('type',TextType::class,array('attr' => array('class' => 'form-control')))
-                    ->getForm(); */
-
         $formSearch->handleRequest($request);
-        /* $formType->handleRequest($request); */
-
 
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
-            /* $type = $produit->getType(); */
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+/*             $prod = $produit->getFabric(); */
+            
             $allProduits = $produitRepository->searchProduit($prod);  
-            /* $allTypes = $produitRepository->searchType($type); */ 
         }
         else
         {
             $allProduits = $produitRepository->findAll();
-            $allTypes = $produitRepository->findAll();
         }
 
         return $this->render('general/recherche.html.twig', [
             'formSearch'=>$formSearch->createView(),
-            /* 'formType'=>$formType->createView(), */
             'allproduits'=>$allProduits,
-            /* 'alltypes'=>$allTypes, */
         ]);
     }
 }

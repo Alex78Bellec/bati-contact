@@ -19,7 +19,7 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
 
-    public function searchProduit($prod)
+/*     public function searchProduit($prod)
     {
         return $this->createQueryBuilder('Produit')
                     ->andWhere('Produit.category LIKE :cate')
@@ -27,7 +27,28 @@ class ProduitRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->execute();
 
+    } */
+
+    public function searchProduit($prod)
+    {
+        $searchProduit = $this->createQueryBuilder('p');
+        return $searchProduit 
+                    /* ->groupBy('p.category') */
+                    ->where('p.category LIKE :cate')
+                    ->setParameter('cate','%'.$prod.'%')
+                    ->orWhere('p.matiere LIKE :matiere')
+                    ->setParameter('matiere','%'.$prod.'%')
+                    ->orWhere('p.type LIKE :type')
+                    ->setParameter('type','%'.$prod.'%')
+/*                     ->leftJoin('p.fabric','fabric')
+                    ->orWhere('fabric LIKE :fabric')
+                    ->setParameter('fabric','%'.$prod.'%') */
+                    ->getQuery()
+                    ->execute();
+        
     }
+
+
 
 /*     public function findByDistrib($distrib)
     {
