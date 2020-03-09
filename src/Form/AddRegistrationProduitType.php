@@ -20,8 +20,9 @@ class AddRegistrationProduitType extends AbstractType
             ->add('type')
             ->add('matiere')
             ->add('fabric')
-            ->add('distrib');
-            
+            ->add('distrib')
+            ->add('image')
+            ->add('content');
 
 /*         ->add('category', EntityType::class, [
             'class' => Produit::class,

@@ -1,13 +1,37 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-
+<table class="table table-dark">
 <h2>Résultat(s) de votre recherche :</h2>
 
+                        <tr>
+                            <th>Catégorie</th>
+                            <th>Produits</th>
+                            <th>Matière</th>
+                            <th>Fabriquant</th>
+                            <th>Photo</th>
+                            <th>Distributeur</th>
+                            <th>Description</th>
+                        </tr>
+{% dump  allproduits %} 
 {% for allproduit in allproduits %}
-<p>{{ allproduit }}</p>
-{% endfor %}
 
+<tr>
+<td><p>{{ allproduit.category }}</p></td>
+<td><p>{{ allproduit.type }}</p></td>
+<td><p>{{ allproduit.matiere }}</p></td>
+{# <td><p>{{ allproduit.fabric }}</p></td> #}<td><img class="imgProduit" src="{{ asset('/Image/'~ allproduit.fabric.logo) }}"></td>
+<td><img class="imgProduit" src="{{ asset('/Image/'~ allproduit.image) }}"></td>
+
+                        {% for distribs in allproduit.distrib %}
+                        {# <td>{{ distribs }}</td> #}<td><img class="imgProduit" src="{{ asset('/Image/'~ distribs.logo) }}"></td>
+                        {% endfor %}
+
+<td><p>{{ allproduit.content }}</p></td>
+</tr>
+
+{% endfor %}
+</table>
 {# {% for alltype in alltypes %}
 <p>{{ alltype }}</p>
 {% endfor %} #}

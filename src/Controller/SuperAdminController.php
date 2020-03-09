@@ -36,6 +36,9 @@ class SuperAdminController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+            
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -83,6 +86,9 @@ class SuperAdminController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -137,6 +143,9 @@ class SuperAdminController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -199,6 +208,9 @@ class SuperAdminController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -243,6 +255,9 @@ class SuperAdminController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -301,6 +316,9 @@ class SuperAdminController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -340,6 +358,9 @@ class SuperAdminController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -395,6 +416,9 @@ class SuperAdminController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -438,6 +462,9 @@ class SuperAdminController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+            
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }

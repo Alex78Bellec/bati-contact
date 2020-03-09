@@ -8,3 +8,9 @@ body
 {
     height: 400vh;
 }
+
+.imgProduit
+{
+    height:10vh;
+    width: 20%;
+}
