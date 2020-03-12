@@ -14,3 +14,19 @@ body
     height:10vh;
     width: 20%;
 }
+
+.grid
+{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+}
+
+.cateIndex
+{
+    width: 20%;
+    height: 15vh;
+    border: solid;
+    background-color: cadetblue;
+    color:white;
+}

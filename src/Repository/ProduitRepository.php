@@ -19,60 +19,56 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
 
-/*     public function searchProduit($prod)
+    public function searchCategory($category)
     {
         return $this->createQueryBuilder('Produit')
                     ->andWhere('Produit.category LIKE :cate')
-                    ->setParameter('cate','%'.$prod.'%')
+                    ->setParameter('cate','%'.$category.'%')
+                    ->distinct()
                     ->getQuery()
                     ->execute();
 
-    } */
+    }
 
     public function searchProduit($prod)
     {
         $searchProduit = $this->createQueryBuilder('p');
         return $searchProduit 
-                    /* ->groupBy('p.category') */
                     ->where('p.category LIKE :cate')
                     ->setParameter('cate','%'.$prod.'%')
                     ->orWhere('p.matiere LIKE :matiere')
                     ->setParameter('matiere','%'.$prod.'%')
                     ->orWhere('p.type LIKE :type')
                     ->setParameter('type','%'.$prod.'%')
-/*                     ->leftJoin('p.fabric','fabric')
-                    ->orWhere('fabric LIKE :fabric')
-                    ->setParameter('fabric','%'.$prod.'%') */
                     ->getQuery()
                     ->execute();
         
     }
 
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Produit[]
+     */
 
-
-/*     public function findByDistrib($distrib)
+    public function findProduct(): array
     {
-        return $this->createQueryBuilder('Produit')
-                    ->andWhere('(Produit.distrib) = :distrib')
-                    ->setParameter('distrib','%'.$distrib.'%')
-                    ->getQuery()
-                    ->execute();
-
+        return $this->findAll();
     }
- */
-/*     public function myFindByDistrib($distrib)
-    {
-        $qb = $this->createQueryBuilder('p')
-            ->select('p.distrib')
-            ->join ('p.distrib','d','WITH','d = :d')
-            ->where('d.id = :id');
 
-            $qb->setParameter('d', $distrib);
-        
-        $query = $qb->getQuery();
-        $results = $query->getResult();
-        return $results; 
-    }  */
+
+    public function distinctCategories($categ){
+        $searchCategory =  $this->createQueryBuilder('cc');
+        return $searchCategory 
+                        ->select('DISTINCT cc.category')
+                        ->where('cc.category LIKE :cate')
+                        ->setParameter('cate', '%'.$categ.'%')
+                        ->getQuery()
+                        ->getResult()
+                        
+        ;
+    }
+
+
 
     // /**
     //  * @return Produit[] Returns an array of Produit objects

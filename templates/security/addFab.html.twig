@@ -3,14 +3,16 @@
 {% form_theme formFab 'bootstrap_4_layout.html.twig' %}
 
 {% block content %}
+
+<h1 class="md col-4 mx-auto">Ajouter Fabricant</h2>
 <div class="col-md-4 mx-auto">
 {{ form_start(formFab) }}
-     {{form_row(formFab.marque)}}
-      {{form_row(formFab.siret)}}
-       {{form_row(formFab.ville)}}
+        {{form_row(formFab.marque)}}
+        {{form_row(formFab.siret)}}
+        {{form_row(formFab.ville)}}
         {{form_row(formFab.email)}}
-         {{form_row(formFab.telephone)}}
-         {{form_row(formFab.logo)}}
+        {{form_row(formFab.telephone)}}
+        {{form_row(formFab.logo)}}
         <button type="submit" class="btn btn-primary">Ajouter</button>
 {{ form_end(formFab) }}
 

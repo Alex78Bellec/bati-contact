@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme articleForm 'bootstrap_4_layout.html.twig' %}
+
+{% block content %}
+
+<h1 class="col-md-4 mx-auto">Ajouter un Article</h1><hr>
+
+<div class="col-md-4 mx-auto">
+{{ form_start(articleForm) }}
+        {{form_row(articleForm.titre)}}
+        {{form_row(articleForm.image)}}
+        {{form_row(articleForm.preface)}}
+        {{form_row(articleForm.content)}}
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+{{ form_end(articleForm) }}
+
+{% endblock %}

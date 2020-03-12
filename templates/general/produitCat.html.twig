@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{# 
+{% dump  produitCat %} #}
+{% block content %}
+<br>
+<div class="container-fluid d-flex justify-content-around">
+{% for produitcat in produitCat %}
+
+        <div class="card bg-info text-white" style="width: 18rem;">
+        <img class="card-img-top" src="{{ asset('/Image/'~ produitcat.image) }}" alt="Card image cap">
+        <div class="card-body">
+            <h4 class="card-title">{{ produitcat.type }}</h4>
+            <h5 class="card-title">{{ produitcat.category }}</h5>
+            <p>Matière :
+                                    {{ produitcat.matiere }}</p>
+
+            {% for distribs in produitcat.distrib %}
+            <p> Distributeur : 
+                                            {{ distribs }}</p>
+            {% endfor %}
+            <p> Marque : 
+                                            {{ produitcat.fabric }}</p>
+
+            <a href="{{ path('produitPrecis', {'id': produitcat.id}) }}" class="btn btn-primary">Voir produit</a>
+        </div>
+        </div>
+{% endfor %}
+</div>
+
+{% endblock %}

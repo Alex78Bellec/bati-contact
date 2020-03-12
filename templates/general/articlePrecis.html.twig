@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content %}
+<br>
+        <div class="card bg-info text-white  mx-auto" style="width: 80rem;">
+        <img class="card-img-top" src="{{ asset('/Image/'~ articles.image) }}" alt="Card image cap">
+        <div class="">
+            <h4 class="card-title">{{ articles.titre }}</h4>
+            <h4>Intro :</h4>
+                                    <p>{{ articles.preface }}</p>
+            <h4>Article :</h4>
+                                    <p>{{ articles.content }}</p>
+        </div>
+        </div>
+
+{% endblock %}

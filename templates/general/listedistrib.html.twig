@@ -1,1 +1,23 @@
 {% extends 'base.html.twig' %}
+
+{% block content %}
+
+<h2 class="md col-4 mx-auto">Nos Partenaires Distributeurs :</h2><hr>
+<div class="container-fluid d-flex justify-content-around"><br>
+                        {% for distributeur in distributeurs %}
+
+                        <div class="card bg-info text-white" style="width: 18rem;">
+
+                                <img class="card-img-top" src="{{ asset('/Image/'~ distributeur.logo) }}" alt="Card image cap">
+
+                        <div class="card-body">
+                                <h4 class="card-title">{{ distributeur.marque }}</h4>
+                                <p>Ville : {{ distributeur.ville }}</p>
+                                <p>Adresse email : {{ distributeur.email }}</p>
+                                <p>Téléphone : {{ distributeur.telephone }}</p>
+                        </div>
+                        </div>
+                        {% endfor %}
+</div>
+
+{% endblock %}
