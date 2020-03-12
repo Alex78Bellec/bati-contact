@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content %}
+<br>
+        <div class="card bg-info text-white  mx-auto" style="width: 80rem;">
+        <img class="card-img-top" src="{{ asset('/Image/'~ produits.image) }}" alt="Card image cap">
+        <div class="">
+
+            <h4 class="card-title">{{ produits.type }}</h4>
+            <h4 class="card-title">{{ produits.matiere }}</h4>
+
+            {% for distribs in produits.distrib %}
+            <p> Distributeur : 
+                                            {{ distribs }}</p>
+            {% endfor %}
+
+            <h4 class="card-title">{{ produits.fabric }}</h4>
+
+            <h4>Description :</h4>
+                                    <p>{{ produits.content }}</p>
+        </div>
+        </div>
+
+{% endblock %}

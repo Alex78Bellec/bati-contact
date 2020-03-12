@@ -2,4 +2,31 @@
 
 {% block content %}
 
+
+        <h3 class="text text-danger">Liste des produits</h3>
+        <hr>
+<div class="container-fluid d-flex justify-content-around">
+{% for produit in products %}
+
+        <div class="card bg-info text-white" style="width: 18rem;">
+        <img class="card-img-top" src="{{ asset('/Image/'~ produit.image) }}" alt="Card image cap">
+        <div class="card-body">
+            <h4 class="card-title">{{ produit.type }}</h4>
+            <h5 class="card-title">{{ produit.category }}</h5>
+            <p>Matière :
+                                    {{ produit.matiere }}</p>
+            {% for distribs in produit.distrib %}
+            <p> Distributeur : 
+                                            {{ distribs }}</p>
+            {% endfor %}
+            <p> Marque : 
+                                            {{ produit.fabric }}</p>
+                                    
+            <a href="{{ path('produitPrecis', {'id': produit.id}) }}" class="btn btn-primary">Voir produit</a>
+        </div>
+        </div>
+{% endfor %}
+
+</div>
+
 {% endblock %}

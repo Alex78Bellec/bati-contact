@@ -1,40 +1,32 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-<table class="table table-dark">
-<h2>Résultat(s) de votre recherche :</h2>
 
-                        <tr>
-                            <th>Catégorie</th>
-                            <th>Produits</th>
-                            <th>Matière</th>
-                            <th>Fabriquant</th>
-                            <th>Photo</th>
-                            <th>Distributeur</th>
-                            <th>Description</th>
-                        </tr>
-{% dump  allproduits %} 
+        <h3 class="text text-danger">Résultat de votre recherche :</h3>
+        <hr>
+
+<div class="container-fluid d-flex justify-content-around">
 {% for allproduit in allproduits %}
 
-<tr>
-<td><p>{{ allproduit.category }}</p></td>
-<td><p>{{ allproduit.type }}</p></td>
-<td><p>{{ allproduit.matiere }}</p></td>
-{# <td><p>{{ allproduit.fabric }}</p></td> #}<td><img class="imgProduit" src="{{ asset('/Image/'~ allproduit.fabric.logo) }}"></td>
-<td><img class="imgProduit" src="{{ asset('/Image/'~ allproduit.image) }}"></td>
-
-                        {% for distribs in allproduit.distrib %}
-                        {# <td>{{ distribs }}</td> #}<td><img class="imgProduit" src="{{ asset('/Image/'~ distribs.logo) }}"></td>
-                        {% endfor %}
-
-<td><p>{{ allproduit.content }}</p></td>
-</tr>
-
+        <div class="card bg-info text-white" style="width: 18rem;">
+        <img class="card-img-top" src="{{ asset('/Image/'~ allproduit.image) }}" alt="Card image cap">
+        <div class="card-body">
+            <h4 class="card-title">{{ allproduit.type }}</h4>
+            <h5 class="card-title">{{ allproduit.category }}</h5>
+            <p>Matière :
+                                    {{ allproduit.matiere }}</p>
+            {% for distribs in allproduit.distrib %}
+            <p> Distributeur : 
+                                            {{ distribs }}</p>
+            {% endfor %}
+            <p> Marque : 
+                                            {{ allproduit.fabric }}</p>
+                                    
+            <a href="{{ path('produitPrecis', {'id': allproduit.id}) }}" class="btn btn-primary">Voir produit</a>
+        </div>
+        </div>
 {% endfor %}
-</table>
-{# {% for alltype in alltypes %}
-<p>{{ alltype }}</p>
-{% endfor %} #}
+</div>
 
 
 {% endblock %}

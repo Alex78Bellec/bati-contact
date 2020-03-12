@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Article;
 use App\Entity\Produit;
 use App\Entity\Fabricant;
 use App\Entity\Distributeur;
@@ -11,6 +12,8 @@ use App\Form\RegistrationDistType;
 use App\Form\RegistrationUserType;
 use App\Repository\ProduitRepository;
 use App\Form\AddRegistrationProduitType;
+use App\Form\ArticleType;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\DistributeurRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,19 +48,14 @@ class SuperAdminController extends AbstractController
         else
         {
             $allProduits = $produitRepository->findAll();
-            /* return $this->redirectToRoute('searchresult'); */
         }
 
-
-        /* $distribs = $repo->myFindByDistrib('p'); */
-        /* $distribs = $repo->findByDistrib('d'); */
-/*         $distrib = $produit->getDistrib();
-        $allDistrib = $produitRepository->findByDistrib($distrib); */
 
         $produit = $this->getDoctrine()->getRepository(Produit::class)->findby([]);
         $fabricants = $this->getDoctrine()->getRepository(Fabricant::class)->findAll();
         $distributeurs = $this->getDoctrine()->getRepository(Distributeur::class)->findAll();
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $articles = $this->getDoctrine()->getRepository(Article::class)->findAll();
 
         return $this->render('admin/superadmin.html.twig', [
             'produits' => $produit,
@@ -66,7 +64,8 @@ class SuperAdminController extends AbstractController
             'users' => $users,
             'formSearch'=>$formSearch->createView(),
             'allproduits'=>$allProduits,
-            /* 'alldistribs'=>$allDistrib, */
+            'articles' =>$articles,
+
         ]);
     }
 
@@ -346,7 +345,7 @@ class SuperAdminController extends AbstractController
     /**
      * @Route("/superadmin/update_distrib/{id}", name="update_distrib")
      */ 
-    public function editDtributeur($id, Request $request, ProduitRepository $produitRepository)
+    public function editDistributeur($id, Request $request, ProduitRepository $produitRepository)
     {
         $produit = New Produit;
         $formSearch = $this->createFormBuilder($produit)
@@ -497,6 +496,168 @@ class SuperAdminController extends AbstractController
         return $this->render('security/addFab.html.twig', [
             'fabriquants' => $fabriquants,
             'formFab' => $form->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+        ]);
+    }
+
+    /**
+     * @Route("/superadmin/ajoutArticle", name="addArticle")
+     */ 
+    public function addArticle(Request $request, EntityManagerInterface $manager, ProduitRepository $produitRepository)
+    {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+            
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
+        $articles = new Article();
+        $formArt = $this->createForm(ArticleType::class , $articles); 
+        $formArt->handleRequest($request);
+
+        $manager = $this->getDoctrine()->getManager();
+
+        if ($formArt->isSubmitted() && $formArt->isValid()) {
+
+            $manager->persist($articles);
+
+            $manager->flush();
+
+            $this->addFlash('success', 'Le produit est bien ajouté au site !');
+            return $this->redirectToRoute('super_admin');
+        }
+
+        return $this->render('admin/addArticle.html.twig', [
+            'articles' => $articles,
+            'articleForm' => $formArt->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+        ]);
+    }
+
+    /**
+     * @Route("/superadmin/update_article/{id}", name="update_article")
+     */ 
+    public function editArticle($id, Request $request, ProduitRepository $produitRepository)
+    { 
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
+        $repository = $this->getDoctrine()->getRepository(Article::class);
+        $articles = $repository->findAll();
+
+        // -------------------------------------------------------------------
+
+
+        $manager = $this->getDoctrine()->getManager();
+        $article = $manager->find(Article::class, $id);
+
+
+        // On créé la vue d'un formulaire qui provient du dossier FORM > ContenuType.php 
+        $form = $this->createForm(ArticleType::class, $article);
+
+        // On gère les informations du formulaire
+        $form->handleRequest($request); 
+
+        // Conditions du formulaire >> CF l.81/85
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $manager->persist($article);
+
+            $manager->flush();
+
+            // Message qui confirme l'action et retour à la route 
+            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            return $this->redirectToRoute('super_admin');
+        } 
+
+        // On renvoie les informations dans la VUE 
+            return $this->render('admin/addArticle.html.twig', [
+
+            'articles' => $articles,
+            'articleForm' => $form->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+        ]);
+    }
+
+    /**
+     * @Route("/superadmin/supprimer_article/{id}", name="delete_article")
+     */
+    public function deleteArticle($id, ProduitRepository $produitRepository, Request $request)
+    { 
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
+        $manager = $this->getDoctrine()->getManager();
+        // On récupère l'objet de la BDD en fonction de son *ID
+        $article = $manager->find(Article::class, $id);
+
+        // Grâce au MANAGER, on supprime l'élément de la BDD
+        $manager->remove($article);
+        $manager->flush();
+
+        // On confirme à l'utilisateur que la suppression a bien été effectuée.
+        $this->addFlash('success', 'Les articles sont bien supprimés');
+        return $this->redirectToRoute('super_admin');
+
+        // On renvoie les informations dans la VUE
+        return $this->render('admin/superadmin.html.twig',[
             'formSearch'=>$formSearch->createView(),
             'allproduits'=>$allProduits,
         ]);
