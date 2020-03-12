@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Produit;
 use App\Entity\Fabricant;
 use App\Entity\Distributeur;
+use App\Form\AddProduitFabType;
 use App\Form\RegistrationFabType;
 use App\Form\RegistrationDistType;
 use App\Form\RegistrationUserType;
@@ -148,16 +149,17 @@ public function registrationFab(Request $request, EntityManagerInterface $manage
             $manager->persist($fab);   
             $user = $this->getUser();
             $fab->setUser($user);
-            if($this-> isGranted('ROLE_USER', $user)){ 
+            if($this-> isGranted('ROLE_USER', $user))
+            { 
 
                 $user->setRoles(['ROLE_FAB']);
-                }
-
-            $user->setRoles(['ROLE_FAB']);
+                
             }
 
+            
+
             $manager->flush(); 
-           return $this->redirectToRoute('prod'); // on redirige vers la page login après 
+           return $this->redirectToRoute('prod'); // on redirige vers la page produit après 
         }
 
     return $this->render('security/addFab.html.twig', [
@@ -344,9 +346,9 @@ return $this->render('security/profilDist.html.twig',[
 
 
 /**
-* @Route("/profilFab", name="profilFab") 
+* @Route("/profilFab/{id}", name="profilFab") 
 */
-public function profilFab(ProduitRepository $produitRepository, Request $request)
+public function profilFab($id,ProduitRepository $produitRepository, Request $request)
 {
     $user=new User();
     $produit = New Produit;
@@ -355,6 +357,20 @@ public function profilFab(ProduitRepository $produitRepository, Request $request
                     ->getForm();
 
         $formSearch->handleRequest($request);
+
+        $repository = $this->getDoctrine()->getRepository(Fabricant::class);
+        $fabriquants= $repository->findAll();
+
+        $manager = $this->getDoctrine()->getManager();
+        $fabriquant = $manager->find(Fabricant::class, $id);
+
+        
+        $repository = $this->getDoctrine()->getRepository(Produit::class);
+        $produits = $repository->findAll();
+
+        $produits = new Produit;
+        $categorys = $produits->getCategory();
+
 
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
@@ -374,9 +390,12 @@ public function profilFab(ProduitRepository $produitRepository, Request $request
 
 
 return $this->render('security/profilFab.html.twig',[
+    'produits' => $produits,
+    'categorys' => $categorys,
     'users' => $user,
     'formSearch'=>$formSearch->createView(),
     'allproduits'=>$allProduits,
+    'fabricants'=>$fabriquants
     ]);
 
 }
@@ -427,7 +446,7 @@ return $this->render('security/profilFab.html.twig',[
             $manager->flush();
 
             $this->addFlash('success', 'Les modifications ont été effectuées ! ');
-            return $this->redirectToRoute('profilFab');
+            return $this->redirectToRoute('prod');
         }
 
         return $this->render('security/registrationUser.html.twig', [
@@ -438,10 +457,11 @@ return $this->render('security/profilFab.html.twig',[
         ]);
     }
 
+
      /**
      * @Route("/profilFab/updateProfil_fabric/{id}", name="updateProfil_fabric")
      */ 
-    public function editFabriquant($id, Request $request, ProduitRepository $produitRepository)
+    public function editProfilFabriquant($id, Request $request, ProduitRepository $produitRepository)
     {
         $produit = New Produit;
         $formSearch = $this->createFormBuilder($produit)
@@ -451,8 +471,11 @@ return $this->render('security/profilFab.html.twig',[
         $formSearch->handleRequest($request);
 
         if($formSearch->isSubmitted() && $formSearch->isValid())
-        {            
+        {
             $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+            
             $allProduits = $produitRepository->searchProduit($prod);
             return $this->redirectToRoute('searchresult');
         }
@@ -462,22 +485,25 @@ return $this->render('security/profilFab.html.twig',[
         }
 
 
+
         $repository = $this->getDoctrine()->getRepository(Fabricant::class);
         $fabriquants= $repository->findAll();
 
         $manager = $this->getDoctrine()->getManager();
         $fabriquant = $manager->find(Fabricant::class, $id);
+
         $form = $this->createForm(RegistrationFabType::class, $fabriquant);
 
         $form->handleRequest($request);
 
-        if ($form-> $form->isSubmitted() && isValid())  {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            // $manager->persist($fabriquant);
+            $manager->persist($fabriquant);
+
             $manager->flush();
 
             $this->addFlash('success', 'Les modifications ont été effectuées ! ');
-            return $this->redirectToRoute('profilFab');
+            return $this->redirectToRoute('prod');
         }
 
         return $this->render('security/addFab.html.twig', [
@@ -488,7 +514,81 @@ return $this->render('security/profilFab.html.twig',[
         ]);
     }
 
-    
+
+
+
+    /**
+     * @Route("/profilFab/add_produitProfilFab/{id}", name="add_produitProfilFab")
+     */
+    public function addProduit($id,Request $request, ProduitRepository $produitRepository)
+    {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+        
+
+        $repository = $this->getDoctrine()->getRepository(Produit::class);
+        $produits = $repository->findAll();
+
+        $produits = new Produit;
+        $categorys = $produits->getCategory();
+
+        $form = $this->createForm(AddProduitFabType::class, $produits);
+        $form->handleRequest($request);
+        $manager = $this->getDoctrine()->getManager();
+
+
+        $repository = $this->getDoctrine()->getRepository(Fabricant::class);
+        $fabriquants= $repository->findAll();
+
+        $manager = $this->getDoctrine()->getManager();
+        $fabriquant = $manager->find(Fabricant::class, $id);
+       // var_dump($produits);
+
+       $fab=new Fabricant();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $manager->persist($produits);
+            $manager->flush();
+
+            $this->addFlash('success', 'Le produit est bien ajouté au site !');
+            //return $this->redirectToRoute('super_admin');
+        }
+
+        return $this->render('security/ajoutProduitFab.html.twig', [
+             'fabriquants' => $fabriquants,
+            'produits' => $produits,
+            'ProduitFormFab' => $form->createView(),
+            'categorys' => $categorys,
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+           
+            
+        ]);
+    }
+
+
 
 /**
 * @Route("\deconnexion", name="logout") 
