@@ -18,19 +18,74 @@
                 {# <td>{{ user.role }}</td> #}
 
                 <td><a href="{{ path( 'update_userFab', {'id': app.user.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
-                {# <a href="{{ path('delete_user', {'id': user.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a> #}</td>
 
             </tr>
 
-            <th>Informations d'entreprise</th>
-            {# <th>Role</th> #}
+          <tr>
+                    
+                            <th>Marque</th>
+                            <th>Siret</th>
+                            <th>Ville</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Logo</th>
+                        </tr>
+                           
+                            {% for fabricant in fabricants %}
+                                <tr>
+                            {% if fabricant.user == app.user  %}
+                                    <td>{{ fabricant.marque }}</td>
+                                    <td>{{ fabricant.siret }}</td>
+                                    <td>{{ fabricant.ville }}</td>
+                                    <td>{{ fabricant.email }}</td>
+                                    <td>{{ fabricant.telephone }}</td>
+                                    <td><img class="imgProduit" src="{{ asset('/Image/'~ fabricant.logo) }}"></td>
+
+                                    <td><a href=" {{ path('updateProfil_fabric', {'id': fabricant.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+                                   
+                                </tr>
+                                  {% endif %}
+                            {% endfor %}
+                         
         </tr>
       
       
     <tr>
+                <div class="col-md-12">
+                    <a href="{{ path('add_produitProfilFab' , {'id':app.user.id}) }}" class="btn btn-primary" style="float: right">Ajouter Produit</a>
+           
 
+                    <table class="table table-dark w-50 mx-auto">
+                             <h5>Produits</h5>
+                        <tr>
+                            <th>Catégorie</th>
+                            <th>Produits</th>
+                            <th>Matière</th>
+                            <th>Distributeur</th>
+                            <th>Fabriquant</th>
+                            <th>Photo</th>
+                            <th>Description</th>
+                        </tr>
+            
+                        {# {% dump valeur %} #}
+                        {# {% dump produits %} #}
+                        {# {% dump  distribs %} #}
 
-        <td><a href=" {{ path('updateProfil_fabric', {'id': app.user.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+                {% for produit in produits %}
+                <tr>
+
+                        <td>{{ produit.category }}</td>
+                        <td>{{ produit.type }}</td>
+                        <td>{{ produit.matiere }}</td>
+                        <td><img class="imgProduit" src="{{ asset('/Image/'~ produit.image) }}"></td>
+                        <td>{{ produit.content }}</td>
+
+                    {# <td><a href=" {{ path('update_produit', {'id': produit.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+                    <a href="{{ path('delete_produit', {'id': produit.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a> #}
+                    </tr>
+                {% endfor %}
+
+       
     </tr>
  
 

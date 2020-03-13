@@ -127,22 +127,22 @@
                             <th>Téléphone</th>
                             <th>Logo</th>
                         </tr>
-                        {% set i = 1 %}
-                        {% for fabricant in fabricants %}
-                            <tr>
-                                <td>{{ i }}</td>
-                                <td>{{ fabricant.marque }}</td>
-                                <td>{{ fabricant.siret }}</td>
-                                <td>{{ fabricant.ville }}</td>
-                                <td>{{ fabricant.email }}</td>
-                                <td>{{ fabricant.telephone }}</td>
-                                <td><img class="imgProduit" src="{{ asset('/Image/'~ fabricant.logo) }}"></td>
+                            {% set i = 1 %}
+                            {% for fabricant in fabricants %}
+                                <tr>
+                                    <td>{{ i }}</td>
+                                    <td>{{ fabricant.marque }}</td>
+                                    <td>{{ fabricant.siret }}</td>
+                                    <td>{{ fabricant.ville }}</td>
+                                    <td>{{ fabricant.email }}</td>
+                                    <td>{{ fabricant.telephone }}</td>
+                                    <td><img class="imgProduit" src="{{ asset('/Image/'~ fabricant.logo) }}"></td>
 
-                                <td><a href=" {{ path('update_fabric', {'id': fabricant.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
-                                <a href="{{ path('delete_fabric', {'id': fabricant.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a></td>
-                            </tr>
-                            {% set i = i+1 %}
-                        {% endfor %}
+                                    <td><a href=" {{ path('update_fabric', {'id': fabricant.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+                                    <a href="{{ path('delete_fabric', {'id': fabricant.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a></td>
+                                </tr>
+                                {% set i = i+1 %}
+                            {% endfor %}
                     </table>
                 </div>
             </div>

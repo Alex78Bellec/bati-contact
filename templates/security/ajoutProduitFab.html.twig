@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+
+{% form_theme ProduitFormFab 'bootstrap_4_layout.html.twig' %}
+
+{% block content %}
+
+{% set id = app.user.id %}
+
+<div class="col-md-4 mx-auto">
+
+    
+    {{form_start(ProduitFormFab)}}
+
+        {{ form_row(ProduitFormFab.category) }}
+        {{ form_row(ProduitFormFab.type) }}
+        {{ form_row(ProduitFormFab.matiere) }}
+
+        {{ form_row(ProduitFormFab.image) }}
+        {{ form_row(ProduitFormFab.content) }}
+      
+
+        <button type="submit" class="btn btn-primary">Ajouter Produit</button>
+
+       
+
+    {{form_end(ProduitFormFab )}}
+</div>
+<div>
+{% endblock %}
