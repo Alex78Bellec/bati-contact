@@ -303,9 +303,9 @@ return $this->render('security/FabOrDist.html.twig',[
 
     
     }
-
+    // **************************** PROFIL DISTRIBUTEUR **************************** //
 /**
-* @Route("/profilDist", name="profilDist") 
+* @Route("/profilDist/{id}", name="profilDist") 
 */
 public function profilDist($id, ProduitRepository $produitRepository, Request $request)
 {
@@ -316,6 +316,21 @@ public function profilDist($id, ProduitRepository $produitRepository, Request $r
                     ->getForm();
 
         $formSearch->handleRequest($request);
+
+        $repository = $this->getDoctrine()->getRepository(Distributeur::class);
+        $distributeurs = $repository->findAll();
+
+        $manager = $this->getDoctrine()->getManager();
+        $distributeur = $manager->find(Distributeur::class, $id);
+
+
+        
+        $repository = $this->getDoctrine()->getRepository(Produit::class);
+        $produits = $repository->findAll();
+
+        $produits = new Produit;
+        $categorys = $produits->getCategory();
+
 
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
@@ -340,10 +355,71 @@ public function profilDist($id, ProduitRepository $produitRepository, Request $r
 return $this->render('security/profilDist.html.twig',[
     'formSearch'=>$formSearch->createView(),
     'allproduits'=>$allProduits,
+    'produits' => $produits,
+    'distributeurs' => $distributeurs,
+
     ]);
 
 }
 
+
+ /**
+     * @Route("/profilDist/update_Profildistrib/{id}", name="update_Profildistrib")
+     */ 
+    public function editDistributeur($id, Request $request, ProduitRepository $produitRepository)
+    {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
+        $repository = $this->getDoctrine()->getRepository(Distributeur::class);
+        $distributeurs = $repository->findAll();
+
+        $manager = $this->getDoctrine()->getManager();
+        $distributeur = $manager->find(Distributeur::class, $id);
+
+        $form = $this->createForm(RegistrationDistType::class, $distributeur);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $manager->persist($distributeur);
+
+            $manager->flush();
+
+            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            return $this->redirectToRoute('prod');
+        }
+
+        return $this->render('security/addDist.html.twig', [
+            'distributeurs' => $distributeurs,
+            'formDist' => $form->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+        ]);
+    }
+
+
+      //************* FABRICANT PROFIL *****************/
 
 /**
 * @Route("/profilFab/{id}", name="profilFab") 
@@ -399,7 +475,7 @@ return $this->render('security/profilFab.html.twig',[
     ]);
 
 }
-
+         
 
  /**
  * @Route("/profilFab/update_userFab/{id}", name="update_userFab")
@@ -456,7 +532,7 @@ return $this->render('security/profilFab.html.twig',[
             'allproduits'=>$allProduits,
         ]);
     }
-
+             
 
      /**
      * @Route("/profilFab/updateProfil_fabric/{id}", name="updateProfil_fabric")

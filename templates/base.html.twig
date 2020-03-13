@@ -39,7 +39,7 @@
                 </li>
 				{% if is_granted('ROLE_DIST')  %}
 				<li class="nav-item">
-                    <a class="nav-link text-white" href="{{ path('profilDist') }}">Profil</a> 
+                    <a class="nav-link text-white" href="{{ path('profilDist', {'id':app.user.id}) }}">Profil</a> 
                 </li>
 				{% endif %}
 				{% if is_granted('ROLE_FAB')  %}
