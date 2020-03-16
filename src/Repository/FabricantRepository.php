@@ -19,6 +19,7 @@ class FabricantRepository extends ServiceEntityRepository
         parent::__construct($registry, Fabricant::class);
     }
 
+
     // /**
     //  * @return Fabricant[] Returns an array of Fabricant objects
     //  */
