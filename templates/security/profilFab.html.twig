@@ -53,41 +53,47 @@
     <tr>
                 <div class="col-md-12">
                     <a href="{{ path('add_produitProfilFab' , {'id':app.user.id}) }}" class="btn btn-primary" style="float: right">Ajouter Produit</a>
-           
 
                     <table class="table table-dark w-50 mx-auto">
-                             <h5>Produits</h5>
+                            <h5>Produits</h5>
                         <tr>
                             <th>Catégorie</th>
-                            <th>Produits</th>
+                            <th>Type</th>
                             <th>Matière</th>
+                            <th>Photo</th>
                             <th>Distributeur</th>
                             <th>Fabriquant</th>
-                            <th>Photo</th>
                             <th>Description</th>
                         </tr>
-            
-                        {# {% dump valeur %} #}
-                        {# {% dump produits %} #}
-                        {# {% dump  distribs %} #}
-
-                {% for produit in produits %}
+                
+                {% for fabricant in fabricants %}
+                {% if fabricant.user == app.user %}
+                {% for fabricantP in fabricant.produits %}
+                {% dump  fabricantP.fabric %}
+                
                 <tr>
 
-                        <td>{{ produit.category }}</td>
-                        <td>{{ produit.type }}</td>
-                        <td>{{ produit.matiere }}</td>
-                        <td><img class="imgProduit" src="{{ asset('/Image/'~ produit.image) }}"></td>
-                        <td>{{ produit.content }}</td>
+                
+                <td>{{ fabricantP.category }}</td>
+                <td>{{ fabricantP.type }}</td>
+                <td>{{ fabricantP.matiere }}</td>
+                <td><img class="imgProduit" src="{{ asset('/Image/'~ fabricantP.image) }}"></td>
+                        {% for distribs in fabricantP.distrib %}
+                        <td>{{ distribs }}</td>
+                        {% endfor %}
+                <td>{{ fabricantP.fabric }}</td>
+                <td>{{ fabricantP.content }}</td>
 
-                    {# <td><a href=" {{ path('update_produit', {'id': produit.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
-                    <a href="{{ path('delete_produit', {'id': produit.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a> #}
+                    <td><a href=" {{ path('update_produit', {'id': fabricantP.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+                    <a href="{{ path('delete_produit', {'id': fabricantP.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a>
                     </tr>
-                {% endfor %}
 
-       
+                {% endfor %}
+                {% endif %}
+                {% endfor %}
+                
+
     </tr>
- 
 
     </table>
 

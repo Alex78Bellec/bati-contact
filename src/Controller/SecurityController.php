@@ -10,9 +10,12 @@ use App\Form\AddProduitFabType;
 use App\Form\RegistrationFabType;
 use App\Form\RegistrationDistType;
 use App\Form\RegistrationUserType;
+use App\Repository\UserRepository;
 use App\Repository\ProduitRepository;
+use App\Repository\FabricantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -331,11 +334,6 @@ public function profilDist($id, ProduitRepository $produitRepository, Request $r
             $allProduits = $produitRepository->findAll();
         }
 
- 
-
-    
-
-
 
 return $this->render('security/profilDist.html.twig',[
     'formSearch'=>$formSearch->createView(),
@@ -348,7 +346,7 @@ return $this->render('security/profilDist.html.twig',[
 /**
 * @Route("/profilFab/{id}", name="profilFab") 
 */
-public function profilFab($id,ProduitRepository $produitRepository, Request $request)
+public function profilFab($id,ProduitRepository $produitRepository, Request $request, FabricantRepository $fabricantRepository)
 {
     $user=new User();
     $produit = New Produit;
@@ -362,7 +360,7 @@ public function profilFab($id,ProduitRepository $produitRepository, Request $req
         $fabriquants= $repository->findAll();
 
         $manager = $this->getDoctrine()->getManager();
-        $fabriquant = $manager->find(Fabricant::class, $id);
+        $fabriquants = $manager->find(Fabricant::class, $id);
 
         
         $repository = $this->getDoctrine()->getRepository(Produit::class);
@@ -383,11 +381,13 @@ public function profilFab($id,ProduitRepository $produitRepository, Request $req
             $allProduits = $produitRepository->findAll();
         }
 
- 
         
-    
+        /* $user = $this->getUser(); */
 
-
+        /////////////////////
+        $fabricants =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]);
+        $produit = $this->getDoctrine()->getRepository(Produit::class)->findBy([/* 'id' => $user->getId() */]);
+////////////////////////////
 
 return $this->render('security/profilFab.html.twig',[
     'produits' => $produits,
@@ -395,7 +395,11 @@ return $this->render('security/profilFab.html.twig',[
     'users' => $user,
     'formSearch'=>$formSearch->createView(),
     'allproduits'=>$allProduits,
-    'fabricants'=>$fabriquants
+    /* 'fabricants'=>$fabriquants, */
+//////////////////////
+    'fabricants'=>$fabricants,
+    'prods'=>$produit,
+//////////////////////
     ]);
 
 }
@@ -577,7 +581,7 @@ return $this->render('security/profilFab.html.twig',[
         }
 
         return $this->render('security/ajoutProduitFab.html.twig', [
-             'fabriquants' => $fabriquants,
+            'fabriquants' => $fabriquants,
             'produits' => $produits,
             'ProduitFormFab' => $form->createView(),
             'categorys' => $categorys,
