@@ -20,6 +20,8 @@ class FabricantRepository extends ServiceEntityRepository
     }
 
 
+    
+
     // /**
     //  * @return Fabricant[] Returns an array of Fabricant objects
     //  */

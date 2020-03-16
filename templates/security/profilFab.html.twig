@@ -9,13 +9,12 @@
         <tr>
             <th>Nom d'tulisateur</th>
             <th>Mot de passe</th>
-            {# <th>Role</th> #}
+            
         </tr>
       
             <tr>
                 <td>{{ app.user.username }}</td>
                 <td>{{ app.user.password }}</td>
-                {# <td>{{ user.role }}</td> #}
 
                 <td><a href="{{ path( 'update_userFab', {'id': app.user.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
 
@@ -73,7 +72,6 @@
                 
                 <tr>
 
-                
                 <td>{{ fabricantP.category }}</td>
                 <td>{{ fabricantP.type }}</td>
                 <td>{{ fabricantP.matiere }}</td>
