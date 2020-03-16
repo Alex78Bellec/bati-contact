@@ -8,8 +8,8 @@
 {% set id = app.user.id %}
 
 <div class="col-md-4 mx-auto">
+{# {% set fabric = fabricant.user %} #}
 
-    
     {{form_start(ProduitFormFab)}}
 
         {{ form_row(ProduitFormFab.category) }}
@@ -18,11 +18,22 @@
 
         {{ form_row(ProduitFormFab.image) }}
         {{ form_row(ProduitFormFab.content) }}
-      
+        {# {{ form_row(ProduitFormFab.fabric) }} #}
 
+        {# //////////////////// #}
+        {% for fabricant in fabricantForm %}
+        {% if fabricant.user == app.user %}
+        {% dump fabricant.user %}
+        {% for fabricantName in fabricant.user %}
+
+        {{ form_widget(ProduitFormFab.fabric, {'attr': {'value': fabricantName.username }}) }}
+
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        {# //////////////// #}
         <button type="submit" class="btn btn-primary">Ajouter Produit</button>
 
-       
 
     {{form_end(ProduitFormFab )}}
 </div>

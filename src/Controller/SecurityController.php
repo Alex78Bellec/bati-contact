@@ -625,12 +625,20 @@ return $this->render('security/profilFab.html.twig',[
             $allProduits = $produitRepository->findAll();
         }
 
-        
-
         $repository = $this->getDoctrine()->getRepository(Produit::class);
         $produits = $repository->findAll();
 
-        $produits = new Produit;
+        
+///////////////////
+
+
+
+$produits = new Produit;
+
+$fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]);
+
+///////////////////////
+
         $categorys = $produits->getCategory();
 
         $form = $this->createForm(AddProduitFabType::class, $produits);
@@ -645,7 +653,7 @@ return $this->render('security/profilFab.html.twig',[
         $fabriquant = $manager->find(Fabricant::class, $id);
        // var_dump($produits);
 
-       $fab=new Fabricant();
+        $fab=new Fabricant();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -663,7 +671,7 @@ return $this->render('security/profilFab.html.twig',[
             'categorys' => $categorys,
             'formSearch'=>$formSearch->createView(),
             'allproduits'=>$allProduits,
-           
+            'fabricantForm'=>$fabricantForm,
             
         ]);
     }
