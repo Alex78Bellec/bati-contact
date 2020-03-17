@@ -43,7 +43,18 @@ class AddProduitFabType extends AbstractType
             ->add('matiere')
             ->add('image', FileType::class)
             ->add('content')
-            ->add('fabric')
+            ->add('fabric', EntityType::class,[
+                // looks for choices from this entity
+                'class' => Fabricant::class,
+            
+                // uses the User.username property as the visible option string
+                'choice_label' => 'id',
+
+                // used to render a select box, check boxes or radios
+                // 'multiple' => false,
+                // 'expanded' => false,
+
+            ])
 
         ;
     }

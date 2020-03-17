@@ -6,6 +6,8 @@
 {% block content %}
 
 {% set id = app.user.id %}
+{% dump id %}
+
 
 <div class="col-md-4 mx-auto">
 {# {% set fabric = fabricant.user %} #}
@@ -21,16 +23,25 @@
         {# {{ form_row(ProduitFormFab.fabric) }} #}
 
         {# //////////////////// #}
+        
+        {% set varfabid = "" %}
+
+
         {% for fabricant in fabricantForm %}
         {% if fabricant.user == app.user %}
-        {% dump fabricant.user %}
-        {% for fabricantName in fabricant.user %}
+        
+        {# {% for fabricantName in fabricant.user %} #}
+        {% set varfabid = fabricant.id %}
+        {% dump varfabid %}
+        {# <div style="display:none;"> #}
+        {{ form_widget(ProduitFormFab.fabric, {'choices': {'value': varfabid }}) }}
+        {# </div> #}
 
-        {{ form_widget(ProduitFormFab.fabric, {'attr': {'value': fabricantName.username }}) }}
-
-        {% endfor %}
+        {# {% endfor %} #}
         {% endif %}
         {% endfor %}
+
+        
         {# //////////////// #}
         <button type="submit" class="btn btn-primary">Ajouter Produit</button>
 
