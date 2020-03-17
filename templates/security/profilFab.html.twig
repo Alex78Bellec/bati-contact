@@ -84,8 +84,8 @@
                 <td>{{ fabricantP.fabric }}</td>
                 <td>{{ fabricantP.content }}</td>
 
-                    <td><a href=" {{ path('update_produit', {'id': fabricantP.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
-                    <a href="{{ path('delete_produit', {'id': fabricantP.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a>
+                    <td><a href=" {{ path('update_produitFab', {'id': fabricantP.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+                    <a href="{{ path('delete_produitFab', {'id': fabricantP.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a>
                     </tr>
 
                 {% endfor %}

@@ -13,6 +13,7 @@ use App\Form\RegistrationUserType;
 use App\Repository\UserRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\FabricantRepository;
+use App\Form\AddRegistrationProduitType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -668,6 +669,129 @@ return $this->render('security/profilFab.html.twig',[
         ]);
     }
 
+
+
+
+    //************************** PRODUIT UPDATE/DELETE ******************************/
+
+
+      /**
+     * @Route("/profilFab/update_produit/{id}", name="update_produitFab")
+     */ 
+    public function editProduitProfilFab($id, Request $request, ProduitRepository $produitRepository)
+    { 
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
+        $repository = $this->getDoctrine()->getRepository(Produit::class);
+        $produits = $repository->findAll();
+
+        // -------------------------------------------------------------------
+
+
+        $manager = $this->getDoctrine()->getManager();
+        $produit = $manager->find(Produit::class, $id);
+
+
+        // On créé la vue d'un formulaire qui provient du dossier FORM > ContenuType.php 
+        $form = $this->createForm(AddRegistrationProduitType::class, $produit);
+
+        // On gère les informations du formulaire
+        $form->handleRequest($request); 
+
+        // Conditions du formulaire >> CF l.81/85
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $manager->persist($produit);
+
+            $manager->flush();
+
+            // Message qui confirme l'action et retour à la route 
+            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            return $this->redirectToRoute('prod');
+        } 
+
+        // On renvoie les informations dans la VUE 
+            return $this->render('admin/ajoutProduit.html.twig', [
+
+            'produits' => $produits,
+            'ProduitForm' => $form->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+        ]);
+    }
+
+
+
+
+
+
+    /**
+     * @Route("/profilFab/supprimer_produit/{id}", name="delete_produitFab")
+     */
+    public function deleteProduit($id, ProduitRepository $produitRepository, Request $request)
+    {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
+        $manager = $this->getDoctrine()->getManager();
+        // On récupère l'objet de la BDD en fonction de son *ID
+        $produit = $manager->find(Produit::class, $id);
+
+        // Grâce au MANAGER, on supprime l'élément de la BDD
+        $manager->remove($produit);
+        $manager->flush();
+
+        // On confirme à l'utilisateur que la suppression a bien été effectuée.
+        $this->addFlash('success', 'Le produit a bien été supprimé.');
+        return $this->redirectToRoute('prod');
+
+        // On renvoie les informations dans la VUE
+        return $this->render('admin/superadmin.html.twig',[
+            'allproduits'=>$allProduits,
+        ]);
+    }
+
+
+    //*************************************************************** */
 
 
 /**
