@@ -34,7 +34,7 @@
         {% set varfabid = fabricant.id %}
         {% dump varfabid %}
         {# <div style="display:none;"> #}
-        {{ form_widget(ProduitFormFab.fabric, {'choices': {'value': varfabid }}) }}
+        {{ form_widget(ProduitFormFab.fabric, {'attr': {'value': varfabid }}) }}
         {# </div> #}
 
         {# {% endfor %} #}
