@@ -641,7 +641,12 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
 
         $categorys = $produits->getCategory();
 
-        $form = $this->createForm(AddProduitFabType::class, $produits);
+        
+        $form = $this->createForm(AddProduitFabType::class, $produits ,array(
+            'user' => $this->getUser(), // On passe le user au formulaire
+        ));
+
+
         $form->handleRequest($request);
         $manager = $this->getDoctrine()->getManager();
 
