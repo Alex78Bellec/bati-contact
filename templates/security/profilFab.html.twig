@@ -29,7 +29,7 @@
                             <th>Téléphone</th>
                             <th>Logo</th>
                         </tr>
-                           
+                        
                             {% for fabricant in fabricants %}
                                 <tr>
                             {% if fabricant.user == app.user  %}
@@ -41,14 +41,13 @@
                                     <td><img class="imgProduit" src="{{ asset('/Image/'~ fabricant.logo) }}"></td>
 
                                     <td><a href=" {{ path('updateProfil_fabric', {'id': fabricant.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
-                                   
+                                
                                 </tr>
-                                  {% endif %}
+                            {% endif %}
                             {% endfor %}
-                         
+                        
         </tr>
-      
-      
+
     <tr>
                 <div class="col-md-12">
                     <a href="{{ path('add_produitProfilFab' , {'id':app.user.id}) }}" class="btn btn-primary" style="float: right">Ajouter Produit</a>

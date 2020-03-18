@@ -22,9 +22,10 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AddProduitFabType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        
+        $user = $options['user'];
         $builder
             ->add('category', ChoiceType::class, [
                 'choices'  => [
@@ -53,6 +54,11 @@ class AddProduitFabType extends AbstractType
                 // used to render a select box, check boxes or radios
                 // 'multiple' => false,
                 // 'expanded' => false,
+                'query_builder' => function (EntityRepository $er) use ($user) {
+                    return $er->createQueryBuilder('cours')
+                        ->where('cours.user = :user')
+                        ->setParameter('user', $user);
+                },
 
             ])
 
@@ -63,6 +69,7 @@ class AddProduitFabType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Produit::class,
+            'user' => null,
         ]);
     }
 }
