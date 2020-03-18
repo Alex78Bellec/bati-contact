@@ -10,13 +10,26 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AddRegistrationProduitType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('category')
+            ->add('category', ChoiceType::class, [
+                'choices'  => [
+                    'Électricité' => 'Électricité',
+                    'Plomberie' => 'Plomberie',
+                    'Menuiserie' => 'Menuiserie',
+                    'Peintre' => 'Peintre',
+                    'Couvreur' => 'Couvreur',
+                    'Maçonnerie' => 'Maçonnerie',
+                    'Carreleur' => 'Carreleur',
+                    'Paysagiste' => 'Paysagiste',
+                    
+                ],
+            ])
             ->add('type')
             ->add('matiere')
             ->add('fabric')
