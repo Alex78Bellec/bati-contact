@@ -7,6 +7,7 @@ use App\Entity\Produit;
 use App\Entity\Fabricant;
 use App\Entity\Distributeur;
 use App\Form\AddProduitFabType;
+use App\Form\AddProduitDistType;
 use App\Form\RegistrationFabType;
 use App\Form\RegistrationDistType;
 use App\Form\RegistrationUserType;
@@ -328,7 +329,6 @@ public function profilDist($id, ProduitRepository $produitRepository, Request $r
         $distributeur = $manager->find(Distributeur::class, $id);
 
 
-        
         $repository = $this->getDoctrine()->getRepository(Produit::class);
         $produits = $repository->findAll();
 
@@ -350,12 +350,19 @@ public function profilDist($id, ProduitRepository $produitRepository, Request $r
             $allProduits = $produitRepository->findAll();
         }
 
+        $distributeur =$this->getDoctrine()->getRepository(Distributeur::class)->findBy([]);
+        $produit = $this->getDoctrine()->getRepository(Produit::class)->findBy([/* 'id' => $user->getId() */]);
+
+
 
 return $this->render('security/profilDist.html.twig',[
     'formSearch'=>$formSearch->createView(),
     'allproduits'=>$allProduits,
     'produits' => $produits,
     'distributeurs' => $distributeurs,
+
+    'distributeurs'=>$distributeur,
+    'prods'=>$produit,
 
     ]);
 
@@ -688,7 +695,7 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
     //************************** PRODUIT UPDATE/DELETE ******************************/
 
 
-      /**
+    /**
      * @Route("/profilFab/update_produit/{id}", name="update_produitFab")
      */ 
     public function editProduitProfilFab($id, Request $request, ProduitRepository $produitRepository)
@@ -724,9 +731,224 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
         $manager = $this->getDoctrine()->getManager();
         $produit = $manager->find(Produit::class, $id);
 
-
+/////////////////////////////////////
         // On créé la vue d'un formulaire qui provient du dossier FORM > ContenuType.php 
-        $form = $this->createForm(AddRegistrationProduitType::class, $produit);
+        /* $form = $this->createForm(AddRegistrationProduitType::class, $produit); */
+//////////////////////////////////////
+$produits = new Produit;
+$fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]);
+
+$form = $this->createForm(AddProduitFabType::class, $produits, array(
+    'user' => $this->getUser(), // On passe le user au formulaire
+)); 
+
+        // On gère les informations du formulaire
+        $form->handleRequest($request); 
+
+
+
+        // Conditions du formulaire >> CF l.81/85
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $manager->persist($produit);
+
+            $manager->flush();
+
+            // Message qui confirme l'action et retour à la route 
+            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            return $this->redirectToRoute('prod');
+        } 
+
+        // On renvoie les informations dans la VUE 
+            return $this->render('security/ajoutProduitFab.html.twig', [
+
+            'produits' => $produits,
+            'ProduitForm' => $form->createView(),
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+            'fabricantForm'=>$fabricantForm,
+            'ProduitFormFab' => $form->createView(),
+        ]);
+    }
+
+
+
+
+
+
+    /**
+     * @Route("/profilFab/supprimer_produit/{id}", name="delete_produitFab")
+     */
+    public function deleteProduit($id, ProduitRepository $produitRepository, Request $request)
+    {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
+        $manager = $this->getDoctrine()->getManager();
+        // On récupère l'objet de la BDD en fonction de son *ID
+        $produit = $manager->find(Produit::class, $id);
+
+        // Grâce au MANAGER, on supprime l'élément de la BDD
+        $manager->remove($produit);
+        $manager->flush();
+
+        // On confirme à l'utilisateur que la suppression a bien été effectuée.
+        $this->addFlash('success', 'Le produit a bien été supprimé.');
+        return $this->redirectToRoute('prod');
+
+        // On renvoie les informations dans la VUE
+        return $this->render('admin/superadmin.html.twig',[
+            'allproduits'=>$allProduits,
+        ]);
+    }
+
+        /**
+     * @Route("/profilDist/add_produitProfilDist/{id}", name="add_produitProfilDist")
+     */
+    public function addProduitDist($id,Request $request, ProduitRepository $produitRepository)
+    {
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+        $repository = $this->getDoctrine()->getRepository(Produit::class);
+        $produits = $repository->findAll();
+
+        
+///////////////////
+
+
+
+$produits = new Produit;
+
+$fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]);
+
+///////////////////////
+
+        $categorys = $produits->getCategory();
+
+        
+        $form = $this->createForm(AddProduitDistType::class, $produits ,array(
+            'user' => $this->getUser(), // On passe le user au formulaire
+        ));
+
+
+        $form->handleRequest($request);
+        $manager = $this->getDoctrine()->getManager();
+
+
+        $repository = $this->getDoctrine()->getRepository(Fabricant::class);
+        $fabriquants= $repository->findAll();
+
+        $manager = $this->getDoctrine()->getManager();
+        $fabriquant = $manager->find(Fabricant::class, $id);
+       // var_dump($produits);
+
+        $fab=new Fabricant();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $manager->persist($produits);
+            $manager->flush();
+
+            $this->addFlash('success', 'Le produit est bien ajouté au site !');
+            //return $this->redirectToRoute('super_admin');
+        }
+
+        return $this->render('security/ajoutProduitDist.html.twig', [
+            'fabriquants' => $fabriquants,
+            'produits' => $produits,
+            'ProduitFormFab' => $form->createView(),
+            'categorys' => $categorys,
+            'formSearch'=>$formSearch->createView(),
+            'allproduits'=>$allProduits,
+            'fabricantForm'=>$fabricantForm,
+            
+        ]);
+    }
+
+
+
+        /**
+     * @Route("/profilDist/update_produit/{id}", name="update_produitDist")
+     */ 
+    public function editProduitProfilDist($id, Request $request, ProduitRepository $produitRepository)
+    { 
+        $produit = New Produit;
+        $formSearch = $this->createFormBuilder($produit)
+                    ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                    ->getForm();
+
+        $formSearch->handleRequest($request);
+
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $prod = $produit->getCategory();
+            $prod = $produit->getMatiere();
+            $prod = $produit->getType();
+
+            $allProduits = $produitRepository->searchProduit($prod);
+            return $this->redirectToRoute('searchresult');
+        }
+        else
+        {
+            $allProduits = $produitRepository->findAll();
+        }
+
+
+        $repository = $this->getDoctrine()->getRepository(Produit::class);
+        $produits = $repository->findAll();
+
+        // -------------------------------------------------------------------
+
+
+        $manager = $this->getDoctrine()->getManager();
+        $produit = $manager->find(Produit::class, $id);
+
+        $produits = new Produit;
+
+        $form = $this->createForm(AddProduitDistType::class, $produits, array(
+        'user' => $this->getUser(), // On passe le user au formulaire
+        )); 
+
 
         // On gère les informations du formulaire
         $form->handleRequest($request); 
@@ -744,24 +966,21 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
         } 
 
         // On renvoie les informations dans la VUE 
-            return $this->render('admin/ajoutProduit.html.twig', [
+            return $this->render('security/ajoutProduitDist.html.twig', [
 
             'produits' => $produits,
             'ProduitForm' => $form->createView(),
             'formSearch'=>$formSearch->createView(),
             'allproduits'=>$allProduits,
+            'ProduitFormFab' => $form->createView(),
         ]);
     }
 
 
-
-
-
-
     /**
-     * @Route("/profilFab/supprimer_produit/{id}", name="delete_produitFab")
+     * @Route("/profilDist/supprimer_produit/{id}", name="delete_produitDist")
      */
-    public function deleteProduit($id, ProduitRepository $produitRepository, Request $request)
+    public function deleteProduitDist($id, ProduitRepository $produitRepository, Request $request)
     {
         $produit = New Produit;
         $formSearch = $this->createFormBuilder($produit)

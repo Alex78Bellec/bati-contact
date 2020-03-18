@@ -20,29 +20,30 @@
 
         {{ form_row(ProduitFormFab.image) }}
         {{ form_row(ProduitFormFab.content) }}
+        {{ form_row(ProduitFormFab.fabric) }}
         {{ form_row(ProduitFormFab.distrib) }}
-        {# {{ form_row(ProduitFormFab.fabric) }} #}
+
 
         {# //////////////////// #}
         
-        {% set varfabid = "" %}
+{#         {% set varfabid = "" %}
 
 
         {% for fabricant in fabricantForm %}
-        {% if fabricant.user == app.user %}
+        {% if fabricant.user == app.user %} #}
         
         {# {% for fabricantName in fabricant.user %} #}
-        {% set varfabid = fabricant.id %}
-        {% dump varfabid %}
+        {# {% set varfabid = fabricant.id %} #}
+        {# {% dump varfabid %} #}
         
-        <div style="display:none;">
-        {{ form_widget(ProduitFormFab.fabric, {'attr': {'value': varfabid }}) }}
-        </div>
+{#         <div style="display:none;">
+        {{ form_widget(ProduitFormFab.distrib, {'attr': {'value': varfabid }}) }}
+        </div> #}
 
 
         {# {% endfor %} #}
-        {% endif %}
-        {% endfor %}
+{#         {% endif %}
+        {% endfor %} #}
 
         
         {# //////////////// #}

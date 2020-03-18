@@ -52,7 +52,7 @@
       
     <tr>
                 <div class="col-md-12">
-                    <a href="{{ path('add_produitProfilFab' , {'id':app.user.id}) }}" class="btn btn-primary" style="float: right">Ajouter Produit</a>
+                    <a href="{{ path('add_produitProfilDist' , {'id':app.user.id}) }}" class="btn btn-primary" style="float: right">Ajouter Produit</a>
            
                     <h5>Produits</h5>
                     <table class="table table-dark w-50 mx-auto">
@@ -61,29 +61,48 @@
                             <th>Catégorie</th>
                             <th>Produits</th>
                             <th>Matière</th>
+                            <th>Photo</th>
                             <th>Distributeur</th>
                             <th>Fabriquant</th>
-                            <th>Photo</th>
                             <th>Description</th>
                         </tr>
             
-                        {# {% dump valeur %} #}
-                        {# {% dump produits %} #}
-                        {# {% dump  distribs %} #}
 
-                {% for produit in produits %}
+                {% for distributeur in distributeurs %}
+                {% if distributeur.user == app.user %}
+                {% for distributeurP in distributeur.produits %}
+                {% dump  distributeurP.fabric %}
+                
                 <tr>
 
-                        <td>{{ produit.category }}</td>
+                <td>{{ distributeurP.category }}</td>
+                <td>{{ distributeurP.type }}</td>
+                <td>{{ distributeurP.matiere }}</td>
+                <td><img class="imgProduit" src="{{ asset('/Image/'~ distributeurP.image) }}"></td>
+                        {% for distribs in distributeurP.distrib %}
+                        <td>{{ distribs }}</td>
+                        {% endfor %}
+                <td>{{ distributeurP.fabric }}</td>
+                <td>{{ distributeurP.content }}</td>
+
+                    <td><a href=" {{ path('update_produitDist', {'id': distributeurP.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
+                    <a href="{{ path('delete_produitFab', {'id': distributeurP.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a>
+                    </tr>
+
+                {% endfor %}
+                {% endif %}
+                {% endfor %}
+
+{#                         <td>{{ produit.category }}</td>
                         <td>{{ produit.type }}</td>
                         <td>{{ produit.matiere }}</td>
                         <td><img class="imgProduit" src="{{ asset('/Image/'~ produit.image) }}"></td>
-                        <td>{{ produit.content }}</td>
+                        <td>{{ produit.content }}</td> #}
 
                     {# <td><a href=" {{ path('update_produit', {'id': produit.id}) }}"><i class="btn btn-warning btn-sm">Modifier</i></a>
                     <a href="{{ path('delete_produit', {'id': produit.id}) }}"><i class="btn btn-danger btn-sm">Supprimer</i></a> #}
                     </tr>
-                {% endfor %}
+                {# {% endfor %} #}
 
        
     </tr>
