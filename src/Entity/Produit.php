@@ -125,6 +125,11 @@ class Produit
         return $this->distrib;
     }
 
+    public function setDistrib(string $distrib)
+    {
+        return $this->distrib = $distrib;
+    }
+
     public function addDistrib(distributeur $distrib): self
     {
         if (!$this->distrib->contains($distrib)) {
