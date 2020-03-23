@@ -35,7 +35,7 @@ class AddProduitDistType extends AbstractType
         ])
             ->add('type')
             ->add('matiere')
-            ->add('image', FileType::class)
+            ->add('image'/* , FileType::class */)
             ->add('content')
             ->add('fabric')
             ->add('distrib', EntityType::class,[

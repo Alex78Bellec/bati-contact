@@ -735,7 +735,9 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
         // On créé la vue d'un formulaire qui provient du dossier FORM > ContenuType.php 
         /* $form = $this->createForm(AddRegistrationProduitType::class, $produit); */
 //////////////////////////////////////
-$produits = new Produit;
+$manager = $this->getDoctrine()->getManager();
+        $produits = $manager->find(Produit::class, $id);
+/* $produits = new Produit; */
 $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]);
 
 $form = $this->createForm(AddProduitFabType::class, $produits, array(
@@ -746,11 +748,10 @@ $form = $this->createForm(AddProduitFabType::class, $produits, array(
         $form->handleRequest($request); 
 
 
-
         // Conditions du formulaire >> CF l.81/85
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $manager->persist($produit);
+            $manager->persist($produits);
 
             $manager->flush();
 
@@ -867,7 +868,7 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
 
         
         $form = $this->createForm(AddProduitDistType::class, $produits ,array(
-            'user' => $this->getUser(), // On passe le user au formulaire
+            'user' => $this->getUser(),// On passe le user au formulaire
         ));
 
 
@@ -879,13 +880,9 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
         $fabriquants= $repository->findAll();
 
         $manager = $this->getDoctrine()->getManager();
-        $fabriquant = $manager->find(Fabricant::class, $id);
-       // var_dump($produits);
-
-        $fab=new Fabricant();
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            
             $manager->persist($produits);
             $manager->flush();
 
@@ -943,7 +940,7 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
         $manager = $this->getDoctrine()->getManager();
         $produit = $manager->find(Produit::class, $id);
 
-        $produits = new Produit;
+/*         $produits = new Produit; */
 
         $form = $this->createForm(AddProduitDistType::class, $produits, array(
         'user' => $this->getUser(), // On passe le user au formulaire

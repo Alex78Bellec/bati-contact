@@ -42,7 +42,7 @@ class AddProduitFabType extends AbstractType
             ])
             ->add('type')
             ->add('matiere')
-            ->add('image', FileType::class)
+            ->add('image'/* , FileType::class */)
             ->add('content')
             ->add('distrib')
             ->add('fabric', EntityType::class,[

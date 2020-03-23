@@ -125,9 +125,10 @@ class Produit
         return $this->distrib;
     }
 
-    public function setDistrib(string $distrib)
+    public function setDistrib(array $distrib)
     {
-        return $this->distrib = $distrib;
+        $this->distrib = $distrib;
+        return $this;
     }
 
     public function addDistrib(distributeur $distrib): self
