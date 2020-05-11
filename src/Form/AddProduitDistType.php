@@ -2,16 +2,18 @@
 
 namespace App\Form;
 
-use App\Entity\Distributeur;
 use App\Entity\Produit;
 use App\Entity\Fabricant;
+use App\Entity\Distributeur;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AddProduitDistType extends AbstractType
 {
@@ -39,6 +41,7 @@ class AddProduitDistType extends AbstractType
             ->add('content')
             ->add('fabric')
             ->add('distrib', EntityType::class,[
+
                 // looks for choices from this entity
                 'class' => Distributeur::class,
             
@@ -55,13 +58,14 @@ class AddProduitDistType extends AbstractType
                 },
 
             ])
+            
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Produit::class,
+            /* 'data_class' => Produit::class, */
             'user' => null,
         ]);
     }
