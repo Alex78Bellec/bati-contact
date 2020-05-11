@@ -544,7 +544,7 @@ return $this->render('security/profilFab.html.twig',[
             'allproduits'=>$allProduits,
         ]);
     }
-             
+
 
      /**
      * @Route("/profilFab/updateProfil_fabric/{id}", name="updateProfil_fabric")
@@ -737,7 +737,6 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
 //////////////////////////////////////
 $manager = $this->getDoctrine()->getManager();
         $produits = $manager->find(Produit::class, $id);
-/* $produits = new Produit; */
 $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]);
 
 $form = $this->createForm(AddProduitFabType::class, $produits, array(
@@ -860,10 +859,8 @@ $form = $this->createForm(AddProduitFabType::class, $produits, array(
 
 $produits = new Produit;
 
-$fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]);
-
-///////////////////////
-
+        
+        $distribForm =$this->getDoctrine()->getRepository(Distributeur::class)->findBy([]);
         $categorys = $produits->getCategory();
 
         
@@ -897,7 +894,7 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
             'categorys' => $categorys,
             'formSearch'=>$formSearch->createView(),
             'allproduits'=>$allProduits,
-            'fabricantForm'=>$fabricantForm,
+            'distribForm'=>$distribForm,
             
         ]);
     }
@@ -940,8 +937,11 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
         $manager = $this->getDoctrine()->getManager();
         $produit = $manager->find(Produit::class, $id);
 
-/*         $produits = new Produit; */
+        $manager = $this->getDoctrine()->getManager();
+        $produits = $manager->find(Produit::class, $id);
 
+
+        $distribForm =$this->getDoctrine()->getRepository(Distributeur::class)->findBy([]);
         $form = $this->createForm(AddProduitDistType::class, $produits, array(
         'user' => $this->getUser(), // On passe le user au formulaire
         )); 
@@ -953,7 +953,7 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
         // Conditions du formulaire >> CF l.81/85
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $manager->persist($produit);
+            $manager->persist($produits);
 
             $manager->flush();
 
@@ -970,6 +970,7 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
             'formSearch'=>$formSearch->createView(),
             'allproduits'=>$allProduits,
             'ProduitFormFab' => $form->createView(),
+            'distribForm'=>$distribForm,
         ]);
     }
 

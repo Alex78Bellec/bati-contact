@@ -10,7 +10,7 @@
 
 
 <div class="col-md-4 mx-auto">
-{# {% set fabric = fabricant.user %} #}
+
 
     {{form_start(ProduitFormFab)}}
 
@@ -21,33 +21,29 @@
         {{ form_row(ProduitFormFab.image) }}
         {{ form_row(ProduitFormFab.content) }}
         {{ form_row(ProduitFormFab.fabric) }}
-        <div style="display:none;">
+{#         <div style="display:none;">
         {{ form_row(ProduitFormFab.distrib) }}
-        </div>
+        </div> #}
 
-        {# //////////////////// #}
-        
-{#         {% set varfabid = "" %}
+        {% set varfabid = "" %}
 
 
-        {% for fabricant in fabricantForm %}
-        {% if fabricant.user == app.user %} #}
+        {% for distributeur in distribForm %}
+        {% if distributeur.user == app.user %}
         
         {# {% for fabricantName in fabricant.user %} #}
-        {# {% set varfabid = fabricant.id %} #}
-        {# {% dump varfabid %} #}
+        {% set varfabid = distributeur.id %}
+        {% dump varfabid %}
         
-{#         <div style="display:none;">
+        {# <div style="display:none;"> #}
         {{ form_widget(ProduitFormFab.distrib, {'attr': {'value': varfabid }}) }}
-        </div> #}
+        {# </div> #}
 
 
         {# {% endfor %} #}
-{#         {% endif %}
-        {% endfor %} #}
+        {% endif %}
+        {% endfor %}
 
-        
-        {# //////////////// #}
         <button type="submit" class="btn btn-primary">Ajouter Produit</button>
 
 
