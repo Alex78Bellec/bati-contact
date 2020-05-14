@@ -298,11 +298,16 @@ return $this->render('security/FabOrDist.html.twig',[
         $lastUsername = $authenticationUtils->getLastUsername();
 
 
+
+
     return $this->render('security/login.html.twig', array(
         'last_username' => $lastUsername,
         'error'         => $error,
         'formSearch'=>$formSearch->createView(),
         'allproduits'=>$allProduits,
+
+        
+
     ));
 
 
@@ -774,8 +779,6 @@ $form = $this->createForm(AddProduitFabType::class, $produits, array(
 
 
 
-
-
     /**
      * @Route("/profilFab/supprimer_produit/{id}", name="delete_produitFab")
      */
@@ -814,6 +817,8 @@ $form = $this->createForm(AddProduitFabType::class, $produits, array(
         // On confirme à l'utilisateur que la suppression a bien été effectuée.
         $this->addFlash('success', 'Le produit a bien été supprimé.');
         return $this->redirectToRoute('prod');
+
+        /* return $this->redirectToRoute('profilFab', ['id' => $produit->getId()]); */
 
         // On renvoie les informations dans la VUE
         return $this->render('admin/superadmin.html.twig',[

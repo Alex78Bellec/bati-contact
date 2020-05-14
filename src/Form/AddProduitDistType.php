@@ -40,22 +40,18 @@ class AddProduitDistType extends AbstractType
             ->add('image'/* , FileType::class */)
             ->add('content')
             ->add('fabric')
-            ->add('distrib', EntityType::class,[
+            ->add('distrib', CollectionType::class,[
 
-                // looks for choices from this entity
-                'class' => Distributeur::class,
+                'entry_type' => DistributeurType::class,
             
-                // uses the User.username property as the visible option string
-                'choice_label' => 'id',
+                'allow_add' => true,
+/*                 'choice_label' => 'id',
 
-                // used to render a select box, check boxes or radios
-                // 'multiple' => false,
-                // 'expanded' => false,
                 'query_builder' => function (EntityRepository $er) use ($user) {
                     return $er->createQueryBuilder('distrib')
                         ->where('distrib.user = :user')
                         ->setParameter('user', $user);
-                },
+                }, */
 
             ])
             
@@ -65,7 +61,7 @@ class AddProduitDistType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            /* 'data_class' => Produit::class, */
+            'data_class' => Produit::class,
             'user' => null,
         ]);
     }

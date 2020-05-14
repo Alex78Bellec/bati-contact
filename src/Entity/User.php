@@ -97,5 +97,11 @@ class User implements UserInterface
     {
         $this->roles = $roles;
     }
+
+    public function __toString()
+    {
+        return $this->username;
+    }
+
   
 }

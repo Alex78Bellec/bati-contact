@@ -21,17 +21,14 @@
         {{ form_row(ProduitFormFab.image) }}
         {{ form_row(ProduitFormFab.content) }}
         {{ form_row(ProduitFormFab.fabric) }}
-{#         <div style="display:none;">
-        {{ form_row(ProduitFormFab.distrib) }}
-        </div> #}
+
 
         {% set varfabid = "" %}
 
 
         {% for distributeur in distribForm %}
         {% if distributeur.user == app.user %}
-        
-        {# {% for fabricantName in fabricant.user %} #}
+        {% dump distributeur.marque %}
         {% set varfabid = distributeur.id %}
         {% dump varfabid %}
         
@@ -39,8 +36,6 @@
         {{ form_widget(ProduitFormFab.distrib, {'attr': {'value': varfabid }}) }}
         {# </div> #}
 
-
-        {# {% endfor %} #}
         {% endif %}
         {% endfor %}
 
