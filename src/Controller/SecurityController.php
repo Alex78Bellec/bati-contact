@@ -373,6 +373,62 @@ return $this->render('security/profilDist.html.twig',[
 
 }
 
+ /**
+ * @Route("/profilDist/update_userDist/{id}", name="update_userDist")
+ */ 
+public function editUserDist($id, Request $request, UserPasswordEncoderInterface $encoder, ProduitRepository $produitRepository)
+{
+    $produit = New Produit;
+    $formSearch = $this->createFormBuilder($produit)
+                ->add('category',TextType::class,array('attr' => array('class' => 'form-control')))
+                ->getForm();
+
+    $formSearch->handleRequest($request);
+
+    if($formSearch->isSubmitted() && $formSearch->isValid())
+    {
+        $prod = $produit->getCategory();
+        $allProduits = $produitRepository->searchProduit($prod);
+        return $this->redirectToRoute('searchresult');
+    }
+    else
+    {
+        $allProduits = $produitRepository->findAll();
+    }
+
+
+
+    $repository = $this->getDoctrine()->getRepository(User::class);
+    $users = $repository->findAll();
+
+    $manager = $this->getDoctrine()->getManager();
+    $user = $manager->find(User::class, $id);
+
+    $form = $this->createForm(RegistrationUserType::class, $user);
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+        $hash = $encoder->encodePassword($user, $user->getPassword()); 
+        $user->setPassword($hash);
+        $user->setConfirmpassword($hash);
+        $manager->persist($user);
+
+        $manager->flush();
+
+        $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+        return $this->redirectToRoute('profilDist', ['id' => $user->getId()]);
+    }
+
+    return $this->render('security/registrationUser.html.twig', [
+        'users' => $users,
+        'formUser' => $form->createView(),
+        'formSearch'=>$formSearch->createView(),
+        'allproduits'=>$allProduits,
+    ]);
+}
+
 
  /**
      * @Route("/profilDist/update_Profildistrib/{id}", name="update_Profildistrib")
@@ -418,7 +474,7 @@ return $this->render('security/profilDist.html.twig',[
             $manager->flush();
 
             $this->addFlash('success', 'Les modifications ont été effectuées ! ');
-            return $this->redirectToRoute('prod');
+            return $this->redirectToRoute('profilDist', ['id' => $distributeur->getId()]);
         }
 
         return $this->render('security/addDist.html.twig', [
@@ -539,7 +595,7 @@ return $this->render('security/profilFab.html.twig',[
             $manager->flush();
 
             $this->addFlash('success', 'Les modifications ont été effectuées ! ');
-            return $this->redirectToRoute('prod');
+            return $this->redirectToRoute('profilFab', ['id' => $user->getId()]);
         }
 
         return $this->render('security/registrationUser.html.twig', [
@@ -596,7 +652,7 @@ return $this->render('security/profilFab.html.twig',[
             $manager->flush();
 
             $this->addFlash('success', 'Les modifications ont été effectuées ! ');
-            return $this->redirectToRoute('prod');
+            return $this->redirectToRoute('profilFab', ['id' => $fabriquant->getId()]);
         }
 
         return $this->render('security/addFab.html.twig', [
@@ -679,7 +735,7 @@ $fabricantForm =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]
             $manager->flush();
 
             $this->addFlash('success', 'Le produit est bien ajouté au site !');
-            //return $this->redirectToRoute('super_admin');
+            return $this->redirectToRoute('profilFab', ['id' => $produits->getId()]);
         }
 
         return $this->render('security/ajoutProduitFab.html.twig', [
@@ -761,7 +817,7 @@ $form = $this->createForm(AddProduitFabType::class, $produits, array(
 
             // Message qui confirme l'action et retour à la route 
             $this->addFlash('success', 'Les modifications ont été effectuées ! ');
-            return $this->redirectToRoute('prod');
+            return $this->redirectToRoute('profilFab', ['id' => $produits->getId()]);
         } 
 
         // On renvoie les informations dans la VUE 
@@ -775,6 +831,7 @@ $form = $this->createForm(AddProduitFabType::class, $produits, array(
             'ProduitFormFab' => $form->createView(),
         ]);
     }
+
 
 
 
@@ -964,7 +1021,7 @@ $produits = new Produit;
 
             // Message qui confirme l'action et retour à la route 
             $this->addFlash('success', 'Les modifications ont été effectuées ! ');
-            return $this->redirectToRoute('prod');
+            return $this->redirectToRoute('profilDist', ['id' => $produits->getId()]);
         } 
 
         // On renvoie les informations dans la VUE 
