@@ -417,7 +417,7 @@ public function editUserDist($id, Request $request, UserPasswordEncoderInterface
 
         $manager->flush();
 
-        $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+        $this->addFlash('info', 'Les modifications ont été effectuées ! ');
         return $this->redirectToRoute('profilDist', ['id' => $user->getId()]);
     }
 
@@ -473,7 +473,7 @@ public function editUserDist($id, Request $request, UserPasswordEncoderInterface
 
             $manager->flush();
 
-            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            $this->addFlash('info', 'Les modifications ont été effectuées ! ');
             return $this->redirectToRoute('profilDist', ['id' => $distributeur->getId()]);
         }
 
@@ -594,7 +594,7 @@ return $this->render('security/profilFab.html.twig',[
 
             $manager->flush();
 
-            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            $this->addFlash('info', 'Les modifications ont été effectuées ! ');
             return $this->redirectToRoute('profilFab', ['id' => $user->getId()]);
         }
 
@@ -651,7 +651,7 @@ return $this->render('security/profilFab.html.twig',[
 
             $manager->flush();
 
-            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            $this->addFlash('info', 'Les modifications ont été effectuées ! ');
             return $this->redirectToRoute('profilFab', ['id' => $fabriquant->getId()]);
         }
 
@@ -816,7 +816,7 @@ $form = $this->createForm(AddProduitFabType::class, $produits, array(
             $manager->flush();
 
             // Message qui confirme l'action et retour à la route 
-            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            $this->addFlash('info', 'Les modifications ont été effectuées ! ');
             return $this->redirectToRoute('profilFab', ['id' => $produits->getId()]);
         } 
 
@@ -872,8 +872,9 @@ $form = $this->createForm(AddProduitFabType::class, $produits, array(
         $manager->flush();
 
         // On confirme à l'utilisateur que la suppression a bien été effectuée.
-        $this->addFlash('success', 'Le produit a bien été supprimé.');
+        $this->addFlash('danger', 'Le produit a bien été supprimé.');
         return $this->redirectToRoute('prod');
+
 
         /* return $this->redirectToRoute('profilFab', ['id' => $produit->getId()]); */
 
@@ -946,7 +947,7 @@ $produits = new Produit;
             $manager->flush();
 
             $this->addFlash('success', 'Le produit est bien ajouté au site !');
-            //return $this->redirectToRoute('super_admin');
+            return $this->redirectToRoute('profilDist', ['id' => $produits->getId()]);
         }
 
         return $this->render('security/ajoutProduitDist.html.twig', [
@@ -1020,7 +1021,7 @@ $produits = new Produit;
             $manager->flush();
 
             // Message qui confirme l'action et retour à la route 
-            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            $this->addFlash('info', 'Les modifications ont été effectuées ! ');
             return $this->redirectToRoute('profilDist', ['id' => $produits->getId()]);
         } 
 
@@ -1073,7 +1074,7 @@ $produits = new Produit;
         $manager->flush();
 
         // On confirme à l'utilisateur que la suppression a bien été effectuée.
-        $this->addFlash('success', 'Le produit a bien été supprimé.');
+        $this->addFlash('danger', 'Le produit a bien été supprimé.');
         return $this->redirectToRoute('prod');
 
         // On renvoie les informations dans la VUE
