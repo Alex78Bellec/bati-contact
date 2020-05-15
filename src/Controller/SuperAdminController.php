@@ -178,7 +178,7 @@ class SuperAdminController extends AbstractController
             $manager->flush();
 
             // Message qui confirme l'action et retour à la route 
-            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            $this->addFlash('info', 'Les modifications ont été effectuées ! ');
             return $this->redirectToRoute('super_admin');
         } 
 
@@ -228,7 +228,7 @@ class SuperAdminController extends AbstractController
         $manager->flush();
 
         // On confirme à l'utilisateur que la suppression a bien été effectuée.
-        $this->addFlash('success', 'Le produit a bien été supprimé.');
+        $this->addFlash('danger', 'Le produit a bien été supprimé.');
         return $this->redirectToRoute('super_admin');
 
         // On renvoie les informations dans la VUE
@@ -286,7 +286,7 @@ class SuperAdminController extends AbstractController
 
             $manager->flush();
 
-            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            $this->addFlash('info', 'Les modifications ont été effectuées ! ');
             return $this->redirectToRoute('super_admin');
         }
 
@@ -333,7 +333,7 @@ class SuperAdminController extends AbstractController
         $manager->remove($distributeur);
         $manager->flush();
 
-        $this->addFlash('success', 'Le distributeur est bien supprimé');
+        $this->addFlash('danger', 'Le distributeur est bien supprimé');
         return $this->redirectToRoute('super_admin');
 
         return $this->render('admin/superadmin.html.twig',[
@@ -385,7 +385,7 @@ class SuperAdminController extends AbstractController
 
             $manager->flush();
 
-            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            $this->addFlash('info', 'Les modifications ont été effectuées ! ');
             return $this->redirectToRoute('super_admin');
         }
 
@@ -436,7 +436,7 @@ class SuperAdminController extends AbstractController
         $manager->flush();
 
         // On confirme à l'utilisateur que la suppression a bien été effectuée.
-        $this->addFlash('success', 'Le fabriquant est bien supprimé');
+        $this->addFlash('danger', 'Le fabriquant est bien supprimé');
         return $this->redirectToRoute('super_admin');
 
         // On renvoie les informations dans la VUE
@@ -489,7 +489,7 @@ class SuperAdminController extends AbstractController
 
             $manager->flush();
 
-            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            $this->addFlash('info', 'Les modifications ont été effectuées ! ');
             return $this->redirectToRoute('super_admin');
         }
 
@@ -603,7 +603,7 @@ class SuperAdminController extends AbstractController
             $manager->flush();
 
             // Message qui confirme l'action et retour à la route 
-            $this->addFlash('success', 'Les modifications ont été effectuées ! ');
+            $this->addFlash('info', 'Les modifications ont été effectuées ! ');
             return $this->redirectToRoute('super_admin');
         } 
 
@@ -653,7 +653,7 @@ class SuperAdminController extends AbstractController
         $manager->flush();
 
         // On confirme à l'utilisateur que la suppression a bien été effectuée.
-        $this->addFlash('success', 'Les articles sont bien supprimés');
+        $this->addFlash('danger', 'Les articles sont bien supprimés');
         return $this->redirectToRoute('super_admin');
 
         // On renvoie les informations dans la VUE
