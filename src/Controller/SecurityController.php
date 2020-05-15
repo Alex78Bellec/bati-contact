@@ -574,7 +574,6 @@ return $this->render('security/profilFab.html.twig',[
         }
 
 
-
         $repository = $this->getDoctrine()->getRepository(User::class);
         $users = $repository->findAll();
 
@@ -871,9 +870,14 @@ $form = $this->createForm(AddProduitFabType::class, $produits, array(
         $manager->remove($produit);
         $manager->flush();
 
+        $manager = $this->getDoctrine()->getManager();
+        // On récupère l'objet de la BDD en fonction de son *ID
+        $fabricant = $manager->find(Fabricant::class, $id);
+
         // On confirme à l'utilisateur que la suppression a bien été effectuée.
         $this->addFlash('danger', 'Le produit a bien été supprimé.');
-        return $this->redirectToRoute('prod');
+        /* return $this->redirectToRoute('prod'); */
+        return $this->redirectToRoute('profilFab', ['id' => $fabricant->getId()]);
 
 
         /* return $this->redirectToRoute('profilFab', ['id' => $produit->getId()]); */
@@ -1073,9 +1077,14 @@ $produits = new Produit;
         $manager->remove($produit);
         $manager->flush();
 
+        $manager = $this->getDoctrine()->getManager();
+        // On récupère l'objet de la BDD en fonction de son *ID
+        $distributeur = $manager->find(Distributeur::class, $id);
+
         // On confirme à l'utilisateur que la suppression a bien été effectuée.
         $this->addFlash('danger', 'Le produit a bien été supprimé.');
-        return $this->redirectToRoute('prod');
+        /* return $this->redirectToRoute('prod'); */
+        return $this->redirectToRoute('profilDist', ['id' => $distributeur->getId()]);
 
         // On renvoie les informations dans la VUE
         return $this->render('admin/superadmin.html.twig',[
