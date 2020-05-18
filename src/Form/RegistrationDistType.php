@@ -18,7 +18,7 @@ class RegistrationDistType extends AbstractType
             ->add('ville')
             ->add('email')
             ->add('telephone')
-            ->add('produits')
+            /* ->add('produits') */
             ->add('logo')
         ;
     }
