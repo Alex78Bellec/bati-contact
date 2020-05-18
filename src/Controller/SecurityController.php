@@ -526,8 +526,6 @@ public function profilFab($id,ProduitRepository $produitRepository, Request $req
             $allProduits = $produitRepository->findAll();
         }
 
-        
-        /* $user = $this->getUser(); */
 
         /////////////////////
         $fabricants =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]);
@@ -540,7 +538,6 @@ return $this->render('security/profilFab.html.twig',[
     'users' => $user,
     'formSearch'=>$formSearch->createView(),
     'allproduits'=>$allProduits,
-    /* 'fabricants'=>$fabriquants, */
 //////////////////////
     'fabricants'=>$fabricants,
     'prods'=>$produit,
