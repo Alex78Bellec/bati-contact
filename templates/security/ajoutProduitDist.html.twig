@@ -32,9 +32,9 @@
         {% set varfabid = distributeur.id %}
         {% dump varfabid %}
         
-        {# <div style="display:none;"> #}
+        <div style="display:none;">
         {{ form_widget(ProduitFormFab.distrib, {'attr': {'value': varfabid }}) }}
-        {# </div> #}
+        </div>
 
         {% endif %}
         {% endfor %}
