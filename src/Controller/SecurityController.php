@@ -16,6 +16,7 @@ use App\Repository\ProduitRepository;
 use App\Repository\FabricantRepository;
 use App\Form\AddRegistrationProduitType;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\DistributeurRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
