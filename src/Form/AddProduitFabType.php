@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Distributeur;
 use App\Entity\Produit;
 use App\Entity\Fabricant;
 use Doctrine\ORM\EntityRepository;
@@ -44,7 +45,13 @@ class AddProduitFabType extends AbstractType
             ->add('matiere')
             ->add('image'/* , FileType::class */)
             ->add('content')
-            ->add('distrib')
+            
+            ->add('distrib', EntityType::class, array(
+                'class' => Distributeur::class,
+                'multiple' => true,
+                'expanded' => true,
+            ))
+
             ->add('fabric', EntityType::class,[
                 // looks for choices from this entity
                 'class' => Fabricant::class,
