@@ -878,8 +878,6 @@ $form = $this->createForm(AddProduitFabType::class, $produits, array(
         return $this->redirectToRoute('profilFab', ['id' => $fabricant->getId()]);
 
 
-        /* return $this->redirectToRoute('profilFab', ['id' => $produit->getId()]); */
-
         // On renvoie les informations dans la VUE
         return $this->render('admin/superadmin.html.twig',[
             'allproduits'=>$allProduits,
