@@ -16,6 +16,7 @@ use App\Repository\ProduitRepository;
 use App\Repository\FabricantRepository;
 use App\Form\AddRegistrationProduitType;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\DistributeurRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -526,8 +527,6 @@ public function profilFab($id,ProduitRepository $produitRepository, Request $req
             $allProduits = $produitRepository->findAll();
         }
 
-        
-        /* $user = $this->getUser(); */
 
         /////////////////////
         $fabricants =$this->getDoctrine()->getRepository(Fabricant::class)->findBy([]);
@@ -540,7 +539,6 @@ return $this->render('security/profilFab.html.twig',[
     'users' => $user,
     'formSearch'=>$formSearch->createView(),
     'allproduits'=>$allProduits,
-    /* 'fabricants'=>$fabriquants, */
 //////////////////////
     'fabricants'=>$fabricants,
     'prods'=>$produit,
@@ -572,7 +570,6 @@ return $this->render('security/profilFab.html.twig',[
         {
             $allProduits = $produitRepository->findAll();
         }
-
 
 
         $repository = $this->getDoctrine()->getRepository(User::class);
@@ -871,12 +868,15 @@ $form = $this->createForm(AddProduitFabType::class, $produits, array(
         $manager->remove($produit);
         $manager->flush();
 
+        $manager = $this->getDoctrine()->getManager();
+        // On récupère l'objet de la BDD en fonction de son *ID
+        $fabricant = $manager->find(Fabricant::class, $id);
+
         // On confirme à l'utilisateur que la suppression a bien été effectuée.
         $this->addFlash('danger', 'Le produit a bien été supprimé.');
-        return $this->redirectToRoute('prod');
+        /* return $this->redirectToRoute('prod'); */
+        return $this->redirectToRoute('profilFab', ['id' => $fabricant->getId()]);
 
-
-        /* return $this->redirectToRoute('profilFab', ['id' => $produit->getId()]); */
 
         // On renvoie les informations dans la VUE
         return $this->render('admin/superadmin.html.twig',[
@@ -1073,9 +1073,14 @@ $produits = new Produit;
         $manager->remove($produit);
         $manager->flush();
 
+        $manager = $this->getDoctrine()->getManager();
+        // On récupère l'objet de la BDD en fonction de son *ID
+        $distributeur = $manager->find(Distributeur::class, $id);
+
         // On confirme à l'utilisateur que la suppression a bien été effectuée.
         $this->addFlash('danger', 'Le produit a bien été supprimé.');
-        return $this->redirectToRoute('prod');
+        /* return $this->redirectToRoute('prod'); */
+        return $this->redirectToRoute('profilDist', ['id' => $distributeur->getId()]);
 
         // On renvoie les informations dans la VUE
         return $this->render('admin/superadmin.html.twig',[
