@@ -924,6 +924,8 @@ $produits = new Produit;
 
         
         $distribForm =$this->getDoctrine()->getRepository(Distributeur::class)->findBy([]);
+
+
         $categorys = $produits->getCategory();
 
         
@@ -936,7 +938,7 @@ $produits = new Produit;
         $manager = $this->getDoctrine()->getManager();
 
 
-        $repository = $this->getDoctrine()->getRepository(Fabricant::class);
+        $repository = $this->getDoctrine()->getRepository(Distributeur::class);
         $fabriquants= $repository->findAll();
 
         $manager = $this->getDoctrine()->getManager();
