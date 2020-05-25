@@ -6,6 +6,7 @@ use App\Entity\Produit;
 use App\Entity\Fabricant;
 use App\Entity\Distributeur;
 use Doctrine\ORM\EntityRepository;
+use App\Form\DistribCollectionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -42,16 +43,22 @@ class AddProduitDistType extends AbstractType
             ->add('fabric')
             ->add('distrib', CollectionType::class,[
 
-                'entry_type' => DistributeurType::class,
-            
-                'allow_add' => true,
-/*                 'choice_label' => 'id',
+                'entry_type' => DistribCollectionType::class,
+
+            /*     'allow_add' => true,
+                'required'      => true,
+                'mapped' =>true, */
+
+
+ /*                'class' => Distributeur::class,
+
+                'choice_label' => 'id',
 
                 'query_builder' => function (EntityRepository $er) use ($user) {
                     return $er->createQueryBuilder('distrib')
                         ->where('distrib.user = :user')
                         ->setParameter('user', $user);
-                }, */
+                },  */
 
             ])
             
@@ -63,6 +70,9 @@ class AddProduitDistType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Produit::class,
             'user' => null,
+
+ 
         ]);
     }
+
 }

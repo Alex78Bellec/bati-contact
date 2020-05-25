@@ -22,22 +22,23 @@
         {{ form_row(ProduitFormFab.content) }}
         {{ form_row(ProduitFormFab.fabric) }}
 
+       {#  {{ form_row(ProduitFormFab.distrib) }} #}
 
         {% set varfabid = "" %}
 
 
-        {% for distributeur in distribForm %}
-        {% if distributeur.user == app.user %}
-        {% dump distributeur.marque %}
-        {% set varfabid = distributeur.id %}
-        {% dump varfabid %}
-        
-        <div style="display:none;">
-        {{ form_widget(ProduitFormFab.distrib, {'attr': {'value': varfabid }}) }}
-        </div>
+        {% for distributeur in distribForm %}  
+         {% if distributeur.user == app.user %}  
+    {% dump distributeur.marque %} 
+        {% set varfabid = distributeur.id %} 
+        {% dump varfabid %}  
 
-        {% endif %}
-        {% endfor %}
+         {# <div style="display:none;">  #}
+         {{ form_widget(ProduitFormFab.distrib, {'attr': {'value': varfabid }}) }} 
+        {# </div> #}
+
+          {% endif %}  
+         {% endfor %}  
 
         <button type="submit" class="btn btn-primary">Ajouter Produit</button>
 
