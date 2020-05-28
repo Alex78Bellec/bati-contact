@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ArrayAccess;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProduitRepository")
  */
-class Produit
+class Produit implements \ArrayAccess
 {
     /**
      * @ORM\Id()
@@ -53,6 +54,28 @@ class Produit
      * @ORM\Column(type="text")
      */
     private $content;
+
+
+    public function offsetExists($offset)
+    {
+        return property_exists($this, $offset);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->$offset;
+    }
+    public function offsetSet($offset, $value)
+    {
+        $this->$offset = $value;
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->$offset);
+    }
+
+
 
     public function __construct()
     {

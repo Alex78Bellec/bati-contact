@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 
-{% form_theme ProduitFormFab 'bootstrap_4_layout.html.twig' %}
+{% form_theme ProduitFormDist 'bootstrap_4_layout.html.twig' %}
 
 {% block content %}
 
@@ -11,8 +11,9 @@
 
 <div class="col-md-4 mx-auto">
 
+{{form_start(ProduitFormDist)}}
 
-    {{form_start(ProduitFormFab)}}
+{#     {{form_start(ProduitFormFab)}}
 
         {{ form_row(ProduitFormFab.category) }}
         {{ form_row(ProduitFormFab.type) }}
@@ -21,29 +22,35 @@
         {{ form_row(ProduitFormFab.image) }}
         {{ form_row(ProduitFormFab.content) }}
         {{ form_row(ProduitFormFab.fabric) }}
+ #}
 
-       {#  {{ form_row(ProduitFormFab.distrib) }} #}
+
+
+        {{ form_row(ProduitFormDist.category) }}
+        {{ form_row(ProduitFormDist.type) }}
+        {{ form_row(ProduitFormDist.matiere) }}
+
+        {{ form_row(ProduitFormDist.image) }}
+        {{ form_row(ProduitFormDist.content) }}
+        {{ form_row(ProduitFormDist.fabric) }}
 
         {% set varfabid = "" %}
-
-
         {% for distributeur in distribForm %}  
-         {% if distributeur.user == app.user %}  
+        {% if distributeur.user == app.user %}  
     {% dump distributeur.marque %} 
         {% set varfabid = distributeur.id %} 
         {% dump varfabid %}  
 
-         {# <div style="display:none;">  #}
-         {{ form_widget(ProduitFormFab.distrib, {'attr': {'value': varfabid }}) }} 
+        {# <div style="display:none;">  #}
+        {{ form_row(ProduitFormDist.distrib, {'attr': {'value': varfabid }}) }} 
         {# </div> #}
 
           {% endif %}  
          {% endfor %}  
-
         <button type="submit" class="btn btn-primary">Ajouter Produit</button>
 
-
-    {{form_end(ProduitFormFab )}}
+{{form_end(ProduitFormDist )}}
+    {# {{form_end(ProduitFormFab )}} #}
 </div>
 <div>
 {% endblock %}
