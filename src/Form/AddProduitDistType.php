@@ -41,26 +41,6 @@ class AddProduitDistType extends AbstractType
             ->add('image'/* , FileType::class */)
             ->add('content')
             ->add('fabric')
-            ->add('distrib', CollectionType::class,[
-
-                'entry_type' => DistribCollectionType::class,
-
-            /*     'allow_add' => true,
-                'required'      => true,
-                'mapped' =>true, */
-
-
- /*                'class' => Distributeur::class,
-
-                'choice_label' => 'id',
-
-                'query_builder' => function (EntityRepository $er) use ($user) {
-                    return $er->createQueryBuilder('distrib')
-                        ->where('distrib.user = :user')
-                        ->setParameter('user', $user);
-                },  */
-
-            ])
             
         ;
     }
@@ -71,7 +51,6 @@ class AddProduitDistType extends AbstractType
             'data_class' => Produit::class,
             'user' => null,
 
- 
         ]);
     }
 

@@ -15,6 +15,7 @@ use App\Repository\UserRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\FabricantRepository;
 use App\Form\AddRegistrationProduitType;
+use App\Form\DistribCollectionType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\DistributeurRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -604,7 +605,7 @@ return $this->render('security/profilFab.html.twig',[
     }
 
 
-     /**
+    /**
      * @Route("/profilFab/updateProfil_fabric/{id}", name="updateProfil_fabric")
      */ 
     public function editProfilFabriquant($id, Request $request, ProduitRepository $produitRepository)
@@ -929,12 +930,16 @@ $produits = new Produit;
         $categorys = $produits->getCategory();
 
         
-        $form = $this->createForm(AddProduitDistType::class, $produits ,array(
+/*         $form = $this->createForm(AddProduitDistType::class, $produits  ,array(
+            'user' => $this->getUser(),// On passe le user au formulaire
+        )); */
+
+        $forms = $this->createForm(DistribCollectionType::class, $produits  ,array (    
             'user' => $this->getUser(),// On passe le user au formulaire
         ));
 
 
-        $form->handleRequest($request);
+        $forms->handleRequest($request);
         $manager = $this->getDoctrine()->getManager();
 
 
@@ -943,7 +948,7 @@ $produits = new Produit;
 
         $manager = $this->getDoctrine()->getManager();
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($forms->isSubmitted() && $forms->isValid()) {
             
             $manager->persist($produits);
             $manager->flush();
@@ -955,11 +960,13 @@ $produits = new Produit;
         return $this->render('security/ajoutProduitDist.html.twig', [
             'fabriquants' => $fabriquants,
             'produits' => $produits,
-            'ProduitFormFab' => $form->createView(),
+            /* 'ProduitFormFab' => $form->createView(), */
             'categorys' => $categorys,
             'formSearch'=>$formSearch->createView(),
             'allproduits'=>$allProduits,
             'distribForm'=>$distribForm,
+
+            'ProduitFormDist' => $forms->createView(),
             
         ]);
     }
